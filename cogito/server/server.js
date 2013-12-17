@@ -3,8 +3,8 @@ var express = require('express'),
     https = require('https'),
     fs = require('fs'),
     uuid = require('node-uuid'),
-    cfg = require('./config');
-
+    cfg = require('./config'),
+    oauth = require('OAuth');
 
 var mongoose = require('mongoose'),
     MemoryStore = require('connect').session.MemoryStore,
@@ -13,8 +13,12 @@ var mongoose = require('mongoose'),
 var Session = require('connect').session,
     sessionStore = new MemoryStore;
 
+var OAuth = require('./services/OAuth.js')(oauth);
+
 var Plan = require('./models/Plan.js')({}, mongoose);
 var User = require('./models/User.js')({}, Plan, mongoose);
+var Yelp = require('./models/Yelp.js')(OAuth, cfg.YELP);
+
 
 var server = https.createServer({
   key: fs.readFileSync('certs/server-key.pem'),
@@ -24,6 +28,7 @@ var server = https.createServer({
 var CogitoRoutes = require('./routes/Cogito.js')();
 var UserRoutes = require('./routes/User.js')(User);
 var PlansRoutes = require('./routes/Plans.js')(User, Plan);
+var YelpRoutes = require('./routes/Yelp.js')(Yelp);
 
 app.configure(function() {
   /* views */
@@ -66,6 +71,8 @@ app.get('/welcome', UserRoutes.welcome);
 app.get('/plans', PlansRoutes.get);
 app.post('/plans', PlansRoutes.post);
 app.put('/plans', PlansRoutes.put);
+
+app.get('/yelp', YelpRoutes.get);
 
 server.listen(cfg.PORT.HTTPS);
 console.log('Listening on port: ', cfg.PORT.HTTPS);

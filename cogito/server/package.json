@@ -12,6 +12,9 @@
     "cookie": ">=0.1.0",
     "cookie-signature": ">=1.0.1",
     "socket.io": ">=0.9.16",
-    "node-uuid": ">=1.4.1"
+    "node-uuid": ">=1.4.1",
+
+    "oauth": "0.9.10",
+    "querystring": "0.2.0"
   }
 }
