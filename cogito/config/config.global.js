@@ -1,12 +1,5 @@
 var config = module.exports = {};
 
-config.HOST = 'localhost/';
-
-// ports
-config.PORT = {};
-config.PORT.HTTP = '8080';
-config.PORT.HTTPS = '8443';
-
 config.YELP = {
   CONSUMER_KEY: 'PXGP2KNzL7qxRogSiBPLjQ',
   CONSUMER_SECRET: 'A05nrkWTTPIK0VQtu79xaqP-KGw',

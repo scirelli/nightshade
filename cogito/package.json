@@ -1,20 +1,30 @@
 {
-  "name": "node-basic",
+  "name": "cogito",
   "version": "0.0.1",
   "private": true,
+  "main": "server.js",
+  "script": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "~3.0.0",
     "jade": ">= 0.0.1",
-
     "mongoose": ">=3.6.19",
     "connect": ">=2.9.0",
-
     "cookie": ">=0.1.0",
     "cookie-signature": ">=1.0.1",
     "socket.io": ">=0.9.16",
     "node-uuid": ">=1.4.1",
-
     "oauth": "0.9.10",
     "querystring": "0.2.0"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "readmeFilename": "README.md",
+  "description": "Beginnings of planner web application in Node.js",
+  "devDependencies": {},
+  "repository": "",
+  "author": "",
+  "license": "BSD"
 }

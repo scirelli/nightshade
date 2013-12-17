@@ -5,7 +5,9 @@ module.exports = function(OAuth, YelpConfig) {
 
     var params = {
       term: 'food',
-      location: 'San Francisco'
+      location: 'Washington DC',
+      // category_filter: 'active',
+      deals_filter: true
     };
 
     OAuth.get('http://api.yelp.com/v2/search', params, function(err, data, res) {
