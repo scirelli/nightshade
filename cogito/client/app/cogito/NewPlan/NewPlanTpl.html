@@ -1,0 +1,10 @@
+<form>
+  <div class="control-group">
+    <label for="plan-this">Paste your Plan's tips here:</label>
+    <textarea class="span8" name="tip" rows="3" ng-model="newPlan.plan.text"></textarea>
+
+  </div>
+  <div class="control-group">
+    <input class="btn btn-medium btn-info" type="submit" value="Plan it!" ng-click="newPlan.save(newPlan.plan)">
+  </div>
+</form>

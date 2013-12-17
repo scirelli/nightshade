@@ -1,0 +1,24 @@
+<div class="plan">
+
+  <editable
+    key="name"
+    html-element="h1"
+    edit-element="input"
+    display-value="{{plan.name || plan.id}}"
+    value="plan.name"
+    save-controls="true"
+    on-save="plan.save(key, value)">
+  </editable>
+  <p class="text-muted">{{plan.date}}</p>
+
+  <editable
+    key="text"
+    html-element="p"
+    edit-element="textarea"
+    display-value="{{plan.text}}"
+    value="plan.text"
+    save-controls="true"
+    on-save="plan.save(key, value)">
+  </editable>
+
+</div>
