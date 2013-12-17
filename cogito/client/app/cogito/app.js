@@ -19,15 +19,18 @@ angular.module("cogito", [
 ])
 
   .config(function($routeProvider) {
+
+    function getPlans($route, Plans) {
+      return Plans.fetch(); 
+    }
+
     $routeProvider
       .when('/map', {templateUrl: 'app/cogito/MapList/MapListTpl.html'})
       .when('/table', {
         templateUrl: 'app/cogito/TableList/TableListTpl.html', 
         controller: 'TableCtrl',
         resolve: {
-          plans: function($route, Plans) {
-            return Plans.fetch(); 
-          }
+          plans: getPlans
         }
       })
       .when('/plan/:id', {
@@ -39,8 +42,14 @@ angular.module("cogito", [
           }
         }
       })
-      .when('/new', {templateUrl: 'app/cogito/NewPlan/NewPlanTpl.html', controller: 'NewPlanCtrl'})
+      .when('/plans/new', {templateUrl: 'app/cogito/NewPlan/NewPlanTpl.html', controller: 'NewPlanCtrl'})
       
 
-      .otherwise('/map', {templateUrl: 'app/cogito/MapList/MapListTpl.html'})
+      .otherwise({
+        controller: 'TableCtrl',
+        templateUrl: 'app/cogito/TableList/TableListTpl.html',
+        resolve: {
+          plans: getPlans
+        }
+      })
   });

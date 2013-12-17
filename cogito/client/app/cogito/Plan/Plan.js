@@ -1,9 +1,9 @@
 angular.module('cg-plan', ['common.services.plans'])
-  .controller('PlanCtrl', function($scope, plan, Plans) {
+  .controller('PlanCtrl', function($scope, Plans) {
 
     var COMPARE_BY_VALUE = true;
 
-    $scope.plan = plan.data || [];
+    $scope.plan = Plans.data || [];
 
     $scope.plan.save = function(key, value) {
       var id = $scope.plan.id,

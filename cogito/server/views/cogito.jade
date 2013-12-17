@@ -1,0 +1,46 @@
+
+extend layout
+
+block styles
+  link(rel="stylesheet", href="/assets/css/common.css")
+  link(rel="stylesheet", href="/assets/css/cogito.css")
+
+block scripts
+  - var _app = 'cogito'
+  script(src="/vendor/bootstrap/js/ui-bootstrap-tpls-0.6.0.js")
+  //- script(src="/socket.io/socket.io.js")
+
+  script(src="app/#{_app}/app.js")
+
+  //- modules
+  script(src="app/cogito/TableList/Table.js")
+  script(src="app/cogito/NewPlan/NewPlan.js")
+  script(src="app/cogito/Plan/Plan.js")
+
+  //- controllers
+  script(src="app/#{_app}/CogitoCtrl.js")
+
+  //- common
+  script(src="app/common/directives/Logo.js")
+  script(src="app/common/directives/Header.js")
+  script(src="app/common/directives/Navigation.js")
+  script(src="app/common/directives/Editable.js")
+  script(src="app/common/services/Plans.js")
+
+  //- services
+  //- script(src="app/#{_app}/Socket.js")
+
+  //- directives
+
+  //- lib
+  script(src="app/lib/services/Communicator.js")
+
+block content
+  div(ng-app="cogito")
+    div.container-fluid(ng-controller="PlanCtrl")
+      alert(type="alert.type") {{alert.msg}}
+      div.row-fluid
+        div.span3
+          include includes/navigation
+        div.span9(ng-view)
+

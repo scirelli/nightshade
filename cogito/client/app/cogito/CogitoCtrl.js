@@ -20,7 +20,6 @@ angular.module("cogito")
       }
     };
 
-
     $scope.$on(Communicator.ALERT_CHANNEL, function() {
       $scope.alert.new(Communicator.alertPacket);
     });
