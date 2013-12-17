@@ -4,6 +4,7 @@ var express = require('express'),
     fs = require('fs'),
     uuid = require('node-uuid'),
     cfg = require('./config'),
+    querystring = require('querystring'),
     oauth = require('oauth');
 
 var mongoose = require('mongoose'),
@@ -13,11 +14,12 @@ var mongoose = require('mongoose'),
 var Session = require('connect').session,
     sessionStore = new MemoryStore;
 
-var OAuth = require('./services/OAuth.js')(oauth);
+var OAuth = require('./services/OAuth.js')(oauth, querystring);
+var GoogleGeocoder = require('./services/GoogleGeocoder')(http, querystring, cfg.GOOGLE_GEOCODER);
+var Yelp = require('./services/Yelp.js')(OAuth, GoogleGeocoder, cfg.YELP);
 
 var Plan = require('./models/Plan.js')({}, mongoose);
 var User = require('./models/User.js')({}, Plan, mongoose);
-var Yelp = require('./models/Yelp.js')(OAuth, cfg.YELP);
 
 
 // var server = https.createServer({
@@ -76,6 +78,12 @@ app.post('/plans', PlansRoutes.post);
 app.put('/plans', PlansRoutes.put);
 
 app.get('/yelp', YelpRoutes.get);
+
+app.get('/geo', function(req, res) {
+  GoogleGeocoder.query(function(err, data) {
+    res.send(200, data);
+  })
+});
 
 server.listen(port);
 console.log('Listening on port: ', port);

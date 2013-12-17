@@ -1,6 +1,4 @@
-module.exports = function(OAuth) {
-  var querystring = require('querystring');
-
+module.exports = function(OAuth, querystring) {
 
   var _oauth,
       _oauthToken,
