@@ -27,7 +27,7 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
       location: 'Washington DC',
       // category_filter: 'active',
       deals_filter: true,
-      limit: 10
+      limit: 5
     };
 
     OAuth.get('http://api.yelp.com/v2/search', params, function(err, data, res) {
@@ -45,7 +45,6 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
         address = _getAddress(item); 
 
         if(address) {
-          console.log('making a geocoder query', address);
           Geocoder.query(address, function(err, res) {
             var geoData = '';
             res.on('data', function(data) {
@@ -53,7 +52,6 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
             });
 
             res.on('end', function() {
-              console.log('geocoder ended', geoData);
               try{
                 geoData = JSON.parse(geoData);
               }
@@ -63,15 +61,13 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
 
               ++index;
 
-              geoData = Geocoder.extractor(geoData.results);
+              geoData = Geocoder.latLonExtractor(geoData.results);
 
+              console.log('testing geoData', geoData)
               if(geoData) {
-                console.log('geodata had something', geoData);
                 item['_location'] = geoData;
-                item['_location']
                 if(index == items.length) {
-                  console.log('index reached length');
-                  callback(data);
+                  callback(items);
                 }
               }
               else{

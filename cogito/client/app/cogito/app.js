@@ -25,7 +25,7 @@ angular.module("cogito", [
 
   .config(function($routeProvider) {
 
-    function getPlans($route, Plans, AroundMe) {
+    function getPlans($route, Plans) {
       return Plans.fetch(); 
     }
 
