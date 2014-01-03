@@ -18,7 +18,7 @@ app.use(function(req, res, next){
     var ago = Date.now() - min;
     console.log('Adding to db');
     db.zrevrangebyscore('online', '+inf', ago, function(err, users){
-        debugger;
+        //debugger;
         if(err){ return next(err); }
         req.online = users;
         next();
@@ -36,7 +36,7 @@ app.get('/hello.txt', function( req, res ){
     //or
     //res.send(body);
 });
-
+/*
 app.get('/', function( req, res, next ){
     'use strict';
     if( req.online ){
@@ -45,8 +45,9 @@ app.get('/', function( req, res, next ){
         res.send('online was undefined');
     }
 });
- 
-app.use(express.static(__dirname + '/public'));
+*/ 
+
+app.use( express.static(__dirname + '/public') );
 
 app.listen(1337);
 console.log('Listening on port 1337');
