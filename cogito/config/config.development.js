@@ -3,7 +3,7 @@ var config = require('./config.global');
 config.HOST = process.env.IP || 'localhost/';
 
 config.PORT = {};
-config.PORT.HTTP = process.env.PORT || '8080';
+config.PORT.HTTP = process.env.PORT || '1337';
 config.PORT.HTTPS = process.env.PORT || '8443';
 
 // paths

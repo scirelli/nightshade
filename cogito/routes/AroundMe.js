@@ -1,12 +1,12 @@
-module.exports = function(LocationNotifiers) {
+module.exports = function(LocationNotifiers){
+    'use strict';
 
-  function fetch(req, res) {
-    var location = req.location; 
+    function fetch(req, res){
+        var location = req.location; 
+        LocationNotifiers.change(location);
+    }
 
-    LocationNotifiers.notify(location);
-  }
-
-  return {
-    fetch: fetch
-  };
+    return {
+        fetch:fetch
+    };
 }

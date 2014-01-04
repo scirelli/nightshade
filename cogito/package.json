@@ -16,7 +16,8 @@
     "socket.io": ">=0.9.16",
     "node-uuid": ">=1.4.1",
     "oauth": "0.9.10",
-    "querystring": "0.2.0"
+    "querystring": "0.2.0",
+    "prototype":">=0.0.5"
   },
   "scripts": {
     "start": "node server.js"

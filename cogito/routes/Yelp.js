@@ -1,5 +1,5 @@
 module.exports = function(Yelp, Meetup) {
-
+    'use strict';
   function fetch(req, res) {
     console.log(req.params);
     Yelp.search(function(data) {

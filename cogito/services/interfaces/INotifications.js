@@ -3,7 +3,8 @@
 // File Desc:
 //*****************************************
 
-module.exports = function(Class){
+module.exports = function(){
+    'use strict';
 
     var IListener = Class.create({
         onChange:function( ){ }
@@ -18,18 +19,16 @@ module.exports = function(Class){
 
     var ANotifier = Class.create(INotifier, {
         initialize:function( ){
-            this.aListeners = new Array();
+            this.aListeners = [];
         },
 
         change:function( ){
             var aListeners = this.aListeners,
                 args       = arguments;
-            setTimeout(function(){
-                for( var i=0, l=aListeners.length,itm=null; i<l; i++ ){
-                    itm = aListeners[i];
-                    itm.onChange.apply( itm, args );
-                }
-            },0);
+            for( var i=0, l=aListeners.length,itm=null; i<l; i++ ){
+                itm = aListeners[i];
+                itm.onChange.apply( itm, args );
+            }
         },
 
         register:function( oListener ){
@@ -65,11 +64,10 @@ module.exports = function(Class){
             return false;
         }
     });
-
-
-    this.IListener = IListener;
-    this.INotifier = INotifier;;
-    this.ANotifier = ANotifier;
+    
+    return {
+        IListener:IListener,
+        INotifier:INotifier,
+        ANotifier:ANotifier
+    }
 };
-
-

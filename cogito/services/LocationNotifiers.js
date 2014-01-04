@@ -1,9 +1,7 @@
-module.exports = function(INofitifaction, Class) {
-
-  return Class.create( INotifications.ANotifier, {
+module.exports = function(INofitifaction){
+  return Class.create( INofitifaction.ANotifier,{
       initialize:function($super){
         $super();
       }
   });
-  
 }
