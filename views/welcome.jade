@@ -1,0 +1,39 @@
+extend layout
+
+block styles
+  link(rel="stylesheet", href="/vendor/css/toggle-switch.css")
+  link(rel="stylesheet", href="/assets/css/common.css")
+  link(rel="stylesheet", href="/assets/css/welcome.css")
+    
+
+block scripts
+  script(src="/vendor/bootstrap/js/ui-bootstrap-tpls-0.6.0.js")
+
+  script(src="app/welcome/app.js")
+
+  //- controllers
+  script(src="app/welcome/WelcomeCtrl.js")
+
+  //- directives
+  script(src="app/welcome/Register.js")
+  script(src="app/welcome/Login.js")
+  script(src="app/welcome/ToggleView.js")
+
+  //- services
+  script(src="app/lib/services/Communicator.js")
+
+block content
+  .container(class="login-container", ng-app="welcome")
+    .section
+      .row
+        .span4
+        .span4(ng-controller="WelcomeCtrl")
+          toggleview(
+            views="welcome.views", 
+            selected="welcome.selected", 
+            on-toggle="toggleView(view)"
+          )
+          login(on-login="login(email, password)")
+          register(on-register="register(user)")
+        .span4
+

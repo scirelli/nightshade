@@ -1,0 +1,19 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Name</th>
+      <th>Text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="plan in table.plans">
+      <td>{{plan.date}}</td>
+      <td>{{plan.name}}</td>
+      <td>{{plan.description}}</td>
+      <!-- <td>
+        <a class="btn btn-default" href="#/plan/{{plan.id}}">View</a>
+      </td> -->
+    </tr>
+  </tbody>
+</table>
