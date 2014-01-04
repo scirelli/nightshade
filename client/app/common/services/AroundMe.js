@@ -22,10 +22,21 @@ angular.module('common.services.aroundme', [])
       }
     };
 
-    aroundMe.query= function(params) {
+    aroundMe.query= function(params, callback) {
       params = params || {};
-      var url = AROUND_ME_REST_PATH + '?' + jQuery.param(params);
-      return $http.get(url);
+      // var url = AROUND_ME_REST_PATH + '?' + jQuery.param(params);
+
+      if(!callback) {
+        return $http.post(AROUND_ME_REST_PATH, params);
+      }
+      else if(typeof callback === 'function') {
+        $http.post(AROUND_ME_REST_PATH, params)
+          .success(callback)
+          .error(callback);
+      }
+      else {
+        console.log('AroundMe.query() expects a callback function');
+      }
     };
     
     return aroundMe;

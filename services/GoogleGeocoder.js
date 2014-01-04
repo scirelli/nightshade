@@ -1,6 +1,6 @@
 module.exports = function(http, querystring, GeocodeConfig) {
 
-  function extractor(results) {
+  function latLonExtractor(results) {
     var first;
     if(results.length > 0) {
       first = results[0];
@@ -21,7 +21,6 @@ module.exports = function(http, querystring, GeocodeConfig) {
   }
 
   function query(address, callback) {
-    // http://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=true
     var path = '/maps/api/geocode/json?' + querystring.stringify({address: address}) + '&sensor=true';
 
     var options = {
@@ -62,7 +61,7 @@ module.exports = function(http, querystring, GeocodeConfig) {
   }
 
   return {
-    extractor: extractor,
+    latLonExtractor: latLonExtractor,
     query: query
   };
 

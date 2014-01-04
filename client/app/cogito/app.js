@@ -15,7 +15,6 @@ angular.module("cogito", [
   'common.directives.editable',
   'common.directives.googlemap',
   'common.services.plans',
-  'common.services.aroundme',
   'common.services.latlngconverter',
   'common.services.currentlocation',
 
@@ -25,7 +24,7 @@ angular.module("cogito", [
 
   .config(function($routeProvider) {
 
-    function getPlans($route, Plans, AroundMe) {
+    function getPlans($route, Plans) {
       return Plans.fetch(); 
     }
 
@@ -34,9 +33,6 @@ angular.module("cogito", [
         templateUrl: 'app/cogito/MapList/MapListTpl.html',
         controller: 'MapCtrl',
         resolve: {
-          aroundMe: function($route, AroundMe) {
-            return AroundMe.query()
-          },
           currentLocation: function($route, CurrentLocation) {
             return CurrentLocation.get();
           }
