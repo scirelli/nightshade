@@ -28,6 +28,11 @@ angular.module("common.directives.googlemap", [])
       config.addCallback({marker: marker});
     }
 
+    function _setCenter(lat, lon) {
+      var latLng = new google.maps.LatLng(lat, lon);
+      _map.setCenter(latLng);
+    }
+
     return {
       restrict: 'E',
       replace: true,
@@ -68,21 +73,22 @@ angular.module("common.directives.googlemap", [])
               addCallback: $scope.onMarkerAdd
             });
         });
+
+        $scope.$watch('points', function(newValue, oldValue) {
+          console.log(newValue, oldValue);
+        });
       },
 
       compile: function(element, attrs, transclude) {
 
         return function($scope, $element, attrs) {
 
-          var lat, lon;
+          var lat = 0, 
+              lon = 0;
 
-          try{ 
+          if($scope.center && $scope.center.lat && $scope.center.lon) {
             lat = $scope.center.lat;
             lon = $scope.center.lon;
-          }
-          catch(e) {
-            lat = 0;
-            lon = 0;
           }
 
           _map = new google.maps.Map($element[0], {
@@ -136,6 +142,12 @@ angular.module("common.directives.googlemap", [])
           google.maps.event.addListener(_map, 'zoom_changed', function() {
           });
 
+          // set the new center of the map when value changes
+          // $scope.$watch('center', function(newValue) {
+          //   if(newValue && newValue.lat && newValue.lon) {
+          //     _setCenter(newValue.lat, newValue.lon);
+          //   }
+          // });
 
           var i, point, latLng, marker;
           for(i = 0, len = $scope.points.length; i < len; ++i) {

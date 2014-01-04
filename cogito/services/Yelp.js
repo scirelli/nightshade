@@ -24,7 +24,7 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
 
     var params = {
       term: 'food',
-      location: 'Washington DC',
+      location: 'Washington, DC',
       // category_filter: 'active',
       deals_filter: true,
       limit: 5
@@ -39,6 +39,7 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
       var items = data.businesses,
           geocodedData = [],
           index = 0,
+          data = [],
           address;
 
       items.forEach(function(item, index) {
@@ -66,6 +67,7 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
               console.log('testing geoData', geoData)
               if(geoData) {
                 item['_location'] = geoData;
+                console.log(item);
                 if(index == items.length) {
                   callback(items);
                 }

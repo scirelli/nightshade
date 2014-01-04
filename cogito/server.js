@@ -14,13 +14,35 @@ var mongoose = require('mongoose'),
 var Session = require('connect').session,
     sessionStore = new MemoryStore;
 
+var Class = require('./lib/class.js');
+
+// interfaces
+var INotications = require('./services/interfaces/INotifications.js')(Class);
+
 var OAuth = require('./services/OAuth.js')(oauth, querystring);
 var GoogleGeocoder = require('./services/GoogleGeocoder')(http, querystring, cfg.GOOGLE_GEOCODER);
 var Yelp = require('./services/Yelp.js')(OAuth, GoogleGeocoder, cfg.YELP);
+var LocationNotifiers = require('./services/LocationNotifiers.js')(INotications, Class);
+var LocationNotifier = new LocationNotifiers();
+
+var yelpListener = Class.create( INotications.IListener,{
+  initialize:function(){},
+  onChange:function( oLocationData ){
+    console.log('something');
+  }
+});
+
+var meetupListener = Class.create( INotications.IListener,{
+  initialize:function(){},
+  onChange:function( oLocationData ){
+    console.log('something');
+  }
+});
+
+LocationNotifier.register([yelpListener, meetupListener]);
 
 var Plan = require('./models/Plan.js')({}, mongoose);
 var User = require('./models/User.js')({}, Plan, mongoose);
-
 
 // var server = https.createServer({
 //   key: fs.readFileSync('certs/server-key.pem'),
@@ -34,6 +56,7 @@ var CogitoRoutes = require('./routes/Cogito.js')();
 var UserRoutes = require('./routes/User.js')(User);
 var PlansRoutes = require('./routes/Plans.js')(User, Plan);
 var YelpRoutes = require('./routes/Yelp.js')(Yelp);
+var AroundMeRoutes = require('./routes/Yelp.js')(LocationNotifiers);
 
 app.configure(function() {
   /* views */
@@ -77,7 +100,8 @@ app.get('/plans', PlansRoutes.get);
 app.post('/plans', PlansRoutes.post);
 app.put('/plans', PlansRoutes.put);
 
-app.get('/yelp', YelpRoutes.get);
+app.post('/yelp', YelpRoutes.fetch);
+app.post('/aroundme', AroundMeRoutes.fetch);
 
 app.get('/geo', function(req, res) {
   GoogleGeocoder.query(function(err, data) {

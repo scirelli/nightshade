@@ -1,12 +1,13 @@
-module.exports = function(Yelp) {
+module.exports = function(Yelp, Meetup) {
 
-  function get(req, res) {
+  function fetch(req, res) {
+    console.log(req.params);
     Yelp.search(function(data) {
       res.send(200, data);
     });
   }
 
   return {
-    get: get
+    fetch: fetch
   };
 }
