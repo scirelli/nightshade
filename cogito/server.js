@@ -1,10 +1,11 @@
 var express = require('express'),
     app = express(),
-    https = require('https'),
+    http = require('http'),
     fs = require('fs'),
     uuid = require('node-uuid'),
-    cfg = require('./config');
-
+    cfg = require('./config'),
+    querystring = require('querystring'),
+    oauth = require('oauth');
 
 var mongoose = require('mongoose'),
     MemoryStore = require('connect').session.MemoryStore,
@@ -13,17 +14,26 @@ var mongoose = require('mongoose'),
 var Session = require('connect').session,
     sessionStore = new MemoryStore;
 
+var OAuth = require('./services/OAuth.js')(oauth, querystring);
+var GoogleGeocoder = require('./services/GoogleGeocoder')(http, querystring, cfg.GOOGLE_GEOCODER);
+var Yelp = require('./services/Yelp.js')(OAuth, GoogleGeocoder, cfg.YELP);
+
 var Plan = require('./models/Plan.js')({}, mongoose);
 var User = require('./models/User.js')({}, Plan, mongoose);
 
-var server = https.createServer({
-  key: fs.readFileSync('certs/server-key.pem'),
-  cert: fs.readFileSync('certs/server-cert.pem')
-},app);
+
+// var server = https.createServer({
+//   key: fs.readFileSync('certs/server-key.pem'),
+//   cert: fs.readFileSync('certs/server-cert.pem')
+// },app);
+
+var server = http.createServer(app);
+var port = cfg.PORT.HTTP;
 
 var CogitoRoutes = require('./routes/Cogito.js')();
 var UserRoutes = require('./routes/User.js')(User);
 var PlansRoutes = require('./routes/Plans.js')(User, Plan);
+var YelpRoutes = require('./routes/Yelp.js')(Yelp);
 
 app.configure(function() {
   /* views */
@@ -39,7 +49,7 @@ app.configure(function() {
   app.use(express.session({
     secret: cfg.SESSION_SECRET, store: sessionStore
   }));
-  mongoose.connect(cfg.MONGOOSE.CONNECT);
+  mongoose.connect(cfg.MONGOOSE.MONGOHQ);
 });
 
 function auth(req, res, next) {
@@ -67,5 +77,13 @@ app.get('/plans', PlansRoutes.get);
 app.post('/plans', PlansRoutes.post);
 app.put('/plans', PlansRoutes.put);
 
-server.listen(cfg.PORT.HTTPS);
-console.log('Listening on port: ', cfg.PORT.HTTPS);
+app.get('/yelp', YelpRoutes.get);
+
+app.get('/geo', function(req, res) {
+  GoogleGeocoder.query(function(err, data) {
+    res.send(200, data);
+  })
+});
+
+server.listen(port);
+console.log('Listening on port: ', port);

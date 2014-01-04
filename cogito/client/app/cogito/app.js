@@ -6,13 +6,18 @@ angular.module("cogito", [
   'cg-table',
   'cg-newplan',
   'cg-plan',
+  'cg-map',
 
   // /app/common
   'common.directives.logo',
   'common.directives.header',
   'common.directives.navigation',
   'common.directives.editable',
+  'common.directives.googlemap',
   'common.services.plans',
+  'common.services.aroundme',
+  'common.services.latlngconverter',
+  'common.services.currentlocation',
 
   // /app/lib
   'lib.services.communicator'
@@ -20,12 +25,23 @@ angular.module("cogito", [
 
   .config(function($routeProvider) {
 
-    function getPlans($route, Plans) {
+    function getPlans($route, Plans, AroundMe) {
       return Plans.fetch(); 
     }
 
     $routeProvider
-      .when('/map', {templateUrl: 'app/cogito/MapList/MapListTpl.html'})
+      .when('/map', {
+        templateUrl: 'app/cogito/MapList/MapListTpl.html',
+        controller: 'MapCtrl',
+        resolve: {
+          aroundMe: function($route, AroundMe) {
+            return AroundMe.query()
+          },
+          currentLocation: function($route, CurrentLocation) {
+            return CurrentLocation.get();
+          }
+        }
+      })
       .when('/table', {
         templateUrl: 'app/cogito/TableList/TableListTpl.html', 
         controller: 'TableCtrl',

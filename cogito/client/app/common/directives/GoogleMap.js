@@ -1,9 +1,9 @@
-angular.module("mapcontrol")
-  .directive('googlemap', function(Communicator, LatLonConverter) {
+angular.module("common.directives.googlemap", [])
+  .directive('googlemap', function(Communicator, LatLngConverter) {
 
     var _map;
 
-    var _latLonConverter;
+    var _latLngConverter;
 
     function _clickCallback(marker, callback) {
       return function(event) {
@@ -57,7 +57,7 @@ angular.module("mapcontrol")
       controller: function($scope, $element) {
         $scope.$on(Communicator.CHANNEL, function(data) {
           var point = Communicator.packet,
-              latLon = _latLonConverter.fromPxToLatLon(point.x, point.y);
+              latLon = _latLngConverter.fromPxToLatLon(point.x, point.y);
 
             _addMarker({
               title: '', 
@@ -74,13 +74,24 @@ angular.module("mapcontrol")
 
         return function($scope, $element, attrs) {
 
+          var lat, lon;
+
+          try{ 
+            lat = $scope.center.lat;
+            lon = $scope.center.lon;
+          }
+          catch(e) {
+            lat = 0;
+            lon = 0;
+          }
+
           _map = new google.maps.Map($element[0], {
-            center: new google.maps.LatLng($scope.center.lat, $scope.center.lon),
+            center: new google.maps.LatLng(lat, lon),
             zoom: 13,
             mapTypeId: google.maps.MapTypeId.ROADMAP
           });
 
-          _latLonConverter = new LatLonConverter(_map);
+          _latLngConverter = new LatLngConverter(_map);
 
           google.maps.event.addListener(_map, 'center_changed', function() {
             $scope.$apply(function() {

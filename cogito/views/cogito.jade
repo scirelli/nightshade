@@ -8,6 +8,8 @@ block styles
 block scripts
   - var _app = 'cogito'
   script(src="/vendor/bootstrap/js/ui-bootstrap-tpls-0.6.0.js")
+  script(src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBWK37_pyvhGcOq98hEFVhSkL-XqaSR2F0&sensor=true")
+  //- script(src="/vendor/js/OpenLayers.js")
   //- script(src="/socket.io/socket.io.js")
 
   script(src="app/#{_app}/app.js")
@@ -16,6 +18,7 @@ block scripts
   script(src="app/cogito/TableList/Table.js")
   script(src="app/cogito/NewPlan/NewPlan.js")
   script(src="app/cogito/Plan/Plan.js")
+  script(src="app/cogito/MapList/Map.js")
 
   //- controllers
   script(src="app/#{_app}/CogitoCtrl.js")
@@ -25,8 +28,11 @@ block scripts
   script(src="app/common/directives/Header.js")
   script(src="app/common/directives/Navigation.js")
   script(src="app/common/directives/Editable.js")
+  script(src="app/common/directives/GoogleMap.js")
   script(src="app/common/services/Plans.js")
-
+  script(src="app/common/services/AroundMe.js")
+  script(src="app/common/services/LatLngConverter.js")
+  script(src="app/common/services/CurrentLocation.js")
   //- services
   //- script(src="app/#{_app}/Socket.js")
 
@@ -42,5 +48,5 @@ block content
       div.row-fluid
         div.span3
           include includes/navigation
-        div.span9(ng-view)
+        div.span9(ng-view, style="height: 700px;")
 
