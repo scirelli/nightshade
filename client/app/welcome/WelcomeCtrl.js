@@ -1,10 +1,17 @@
 angular.module("welcome")
 	.controller("WelcomeCtrl", function($scope, $http, $window, $timeout) {
 
+		var self = this;
+
 		$scope.welcome = {
 			views: ["Login", "Register"],
 			selected: "Login"
 		};
+
+		self.toggleView = function() {
+			$scope.tv.toggle = !$scope.tv.toggle;
+			$scope.$apply();
+		}
 
 		$scope.alert = {
 			list: [],
@@ -14,13 +21,6 @@ angular.module("welcome")
 			},
 			remove: function(index) {
 				$scope.alert.list.splice(index);
-			}
-		};
-
-		$scope.toggleView = {
-			"switch": true,
-			toggle: function() {
-				$scope.toggleView["switch"] = !$scope.toggleView["switch"];
 			}
 		};
 
@@ -63,8 +63,9 @@ angular.module("welcome")
 							$scope.alert.remove(index);
 						}, 2000)
 
-						$scope.toggleView.toggle();
 					}
+					
+					self.toggleView();
 				})
 				.error(function(data, status, header, config) {
 					console.log('register error', arguments);

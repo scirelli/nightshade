@@ -3,12 +3,7 @@ angular.module("welcome")
 		return {
 			restrict: 'E',
 			replace: true,
-			scope: {
-				onToggle: '&', 	// callback
-				views: '=', 		// binding
-				selected: '=',	// binding
-				switch: '='
-			},
+			controller: 'WelcomeCtrl',
 
 			template: 
 				'<div>' +
@@ -16,29 +11,16 @@ angular.module("welcome")
 						
 						'<input type="checkbox" ng-model="tv.toggle">' +
 						'<span class="toggle-wrapper">' +
-							'<span class="toggle-label" ng-repeat="view in views">{{view}}</span>' +
+							'<span class="toggle-label" ng-repeat="view in welcome.views">{{view}}</span>' +
 						'</span>' +
 						
 						'<a class="slide-button btn btn-default"></a>' +
 					'</label>' + 
 				'</div>',
 
-
-
-			controller: function($scope, $element) {
-				$scope.$watch('tv.toggle', function(newVal, oldVal) {
-					var index = +newVal;
-
-					if($scope.views[index]){
-						Communicator.send(angular.lowercase($scope.views[index]));
-					}
-				});
-
-				$scope.$watch('switch', function(newVal) {
-					$scope.tv.toggle = newVal;
-				});
-
-				var isChecked = +$scope.views.indexOf($scope.selected);
+			link: function($scope, $element, $attrs, WelcomeCtrl) {
+				
+				var isChecked = +$scope.welcome.views.indexOf($scope.welcome.selected);
 				isChecked = (isChecked ? true : false);
 
 				$($element)
@@ -48,13 +30,14 @@ angular.module("welcome")
 				$scope.tv = {
 				 	toggle: isChecked
 				}
-			},
 
-			link: function(scope, element, attributes) {
-				scope.toggle = function(view) {
-					scope.onToggle({view: view});
-				};
+				$scope.$watch('tv.toggle', function(newVal, oldVal) {
+					var index = +newVal;
 
+					if($scope.welcome.views[index]){
+						Communicator.send(angular.lowercase($scope.welcome.views[index]));
+					}
+				});
 			}
 		};
 	});
