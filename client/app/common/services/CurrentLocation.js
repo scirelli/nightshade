@@ -1,42 +1,37 @@
 angular.module('common.services.currentlocation', [])
 
-.factory('CurrentLocation', function($q) {
+  .factory('CurrentLocation', function($q) {
+    var _location;
 
-  function _geolocator() {
-    if(navigator && navigator.geolocation) {
-      return navigator.geolocation;
-    }
-    else {
-      return false;
-    }
-  }
+    var CurrentLocation = {};
 
-  function _callback(defer, location) {
-    defer.resolve(location);
-  }
-
-  return {
-
-    get: function() {
-      var locator = _geolocator(),
-          defer = $q.defer();
-
-
-      if( !locator ) {
-        _callback(defer, {lat: 38.8951, lon: 77.0367});
+    function _geolocator() {
+      if(navigator && navigator.geolocation) {
+        return navigator.geolocation;
       }
       else {
-        locator.getCurrentPosition(function(position) {
-          _callback(defer, {
-            lat: position.coords.latitude,
-            lon: position.coords.longitude
-          });
-        })
+        return false;
       }
-
-      return defer.promise;
     }
 
-  };
+    function _get(callback) {
+      var locator = _geolocator();
 
-});
+      locator.getCurrentPosition(function(position) {
+        _location = {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude
+        };
+
+        callback(_location);
+      });
+      return;
+    }
+
+    CurrentLocation = {
+      get: _get
+    };
+
+    return CurrentLocation;
+
+  });

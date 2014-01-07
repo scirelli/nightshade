@@ -1,7 +1,9 @@
 angular.module('cg-map', [
   'common.services.aroundme'
 ])
-  .controller('MapCtrl', function($scope, currentLocation, AroundMe) {
+  .controller('MapCtrl', function($scope, CurrentLocation, AroundMe) {
+
+    var self = this;
 
     function _translator(items) {
       var translated = [];
@@ -22,28 +24,33 @@ angular.module('cg-map', [
       return translated;
     }
 
+
+    CurrentLocation.get(function(location) {
+      if(!$scope.$$phase || !$scope.$root.$$phase) {
+        $scope.$apply(function() {
+          $scope.map.center = location;
+          $scope.map.hasLocation = true;
+        });
+      }
+      else {
+        $scope.map.center = location;
+        $scope.map.hasLocation = true;
+      }
+    });
+
     $scope.map = {
-      center: currentLocation,
-      // points: _translator(aroundMe.data);
-      points: []
+      points: [],
+      hasLocation: false
     };
 
-    AroundMe.query({}, function(data, status, headers) {
-      var points = _translator(data);
+    // AroundMe.query({}, function(data, status, headers) {
+    //   var points = _translator(data);
 
-      $scope.map.points = points;
-    });
+    //   $scope.map.points = points;
+    // });
 
     $scope.$watch('map.bounds', function(newValue, oldValue) {
       // console.log(newValue, oldValue);
     });
-
-    $scope.$watch('map.center', function(newValue, oldValue) {
-      console.log(newValue, oldValue);
-      if(newValue) {
-         
-      }
-    });
-
 
   });

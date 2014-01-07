@@ -31,12 +31,7 @@ angular.module("cogito", [
     $routeProvider
       .when('/map', {
         templateUrl: 'app/cogito/MapList/MapListTpl.html',
-        controller: 'MapCtrl',
-        resolve: {
-          currentLocation: function($route, CurrentLocation) {
-            return CurrentLocation.get();
-          }
-        }
+        controller: 'MapCtrl'
       })
       .when('/table', {
         templateUrl: 'app/cogito/TableList/TableListTpl.html', 

@@ -1,5 +1,5 @@
 angular.module("common.directives.googlemap", [])
-  .directive('googlemap', function(Communicator, LatLngConverter) {
+  .directive('googlemap', function(Communicator, LatLngConverter, $timeout) {
 
     var _map;
 
@@ -29,8 +29,10 @@ angular.module("common.directives.googlemap", [])
     }
 
     function _setCenter(lat, lon) {
-      var latLng = new google.maps.LatLng(lat, lon);
-      _map.setCenter(latLng);
+      $timeout(function() {
+        var latLng = new google.maps.LatLng(lat, lon);
+        _map.setCenter(latLng);
+      });
     }
 
     return {
@@ -76,6 +78,12 @@ angular.module("common.directives.googlemap", [])
 
         $scope.$watch('points', function(newValue, oldValue) {
           console.log(newValue, oldValue);
+        });
+
+        $scope.$watch('center', function(newCenter) {
+          if(newCenter) {
+            _setCenter(newCenter.lat, newCenter.lon);
+          }
         });
       },
 

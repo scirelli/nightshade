@@ -43,9 +43,8 @@ block scripts
 
 block content
   div(ng-app="cogito")
-    div.container-fluid(ng-controller="PlanCtrl")
-      alert(type="alert.type") {{alert.msg}}
-      div.row-fluid
+    div.container(ng-controller="PlanCtrl")
+      div.row
         div.span3
           include includes/navigation
         div.span9(ng-view, style="height: 700px;")
