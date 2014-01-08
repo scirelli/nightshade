@@ -50,6 +50,7 @@ angular.module("cogito", [
       if(marker) {
         $scope.debug.marker = {
           title: marker.title,
+          url: marker.url,
           description: marker.description,
           lat: marker.lat,
           lon: marker.lon

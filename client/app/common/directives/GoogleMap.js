@@ -18,6 +18,7 @@ angular.module("common.directives.googlemap", [])
       point.position = latLng;
       point.map = config.map;
       point.title = config.title;
+      point.url = config.url;
       point.description = config.description;
 
       marker = new google.maps.Marker(point);
@@ -45,6 +46,7 @@ angular.module("common.directives.googlemap", [])
           lat: point.lat, 
           lon: point.lon, 
           description: point.description,
+          url: point.url,
           map: _map, 
           clickCallback: clickCallback,
           addCallback: addCallback
@@ -79,19 +81,19 @@ angular.module("common.directives.googlemap", [])
       template: '<div class="google-map fill"></div>',
 
       controller: function($scope, $element) {
-        $scope.$on(Communicator.CHANNEL, function($e, data) {
-          var point = Communicator.packet,
-              latLon = _latLngConverter.fromPxToLatLon(point.x, point.y);
+        // $scope.$on(Communicator.CHANNEL, function($e, data) {
+        //   var point = Communicator.packet,
+        //       latLon = _latLngConverter.fromPxToLatLon(point.x, point.y);
 
-            _addMarker({
-              title: '', 
-              lat: latLon.lat(), 
-              lon: latLon.lng(), 
-              map: _map, 
-              clickCallback: $scope.onMarkerClick,
-              addCallback: $scope.onMarkerAdd
-            });
-        });
+        //     _addMarker({
+        //       title: '', 
+        //       lat: latLon.lat(), 
+        //       lon: latLon.lng(), 
+        //       map: _map, 
+        //       clickCallback: $scope.onMarkerClick,
+        //       addCallback: $scope.onMarkerAdd
+        //     });
+        // });
 
         $scope.$watch('points', function(points) {
           if(points && points.length > 0) {

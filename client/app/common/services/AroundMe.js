@@ -9,14 +9,17 @@ angular.module('common.services.aroundme', [])
     var AROUND_ME_REST_PATH = '/yelp';
 
     function _translator(items) {
-      var translated = [];
+      var translated = [],
+          deal;
       items = items || [];
 
       items.forEach(function(item, index) {
+        deal = item.deals[0];
         try{
           translated.push({
             name: item.name,
-            description: item.deals[0].what_you_get || '',
+            description: deal.additional_restrictions || deal.title,
+            url: item.url,
             lat: item._location.lat,
             lon: item._location.lon
           });
