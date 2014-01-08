@@ -1,8 +1,14 @@
 angular.module('common.services.aroundme', [])
   .factory('AroundMe', function($http) {
-    var self = this;
+
 
     var AroundMe = {};
+    AroundMe.MESSAGES = {
+      FETCHING_DATA: 'Loading data...',
+      SUCCESS: 'Successfuly retrieved data',
+      ERROR: 'Failed to retrieve data'
+    };
+
     var _aroundMe = false;
     var _currentLocation = false;
 
@@ -48,9 +54,11 @@ angular.module('common.services.aroundme', [])
       $http.post(AROUND_ME_REST_PATH, currentLocation)
         .success(function(data, status, headers) {
           _aroundMe = _translator(data);
+          _aroundMe.message = AroundMe.MESSAGES.SUCCESS;
           callback(_aroundMe, status, headers);
         })
         .error(function(data, status, headers) {
+          data.message = AroundMe.MESSAGES.ERROR;
           callback(data, status, headers);
         });
       

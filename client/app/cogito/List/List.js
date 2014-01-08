@@ -10,6 +10,7 @@ angular.module('cg-list', [
       AroundMe.query(params, function(data, status, headers) {
         var items = data;
         $scope.list.items = items;
+        $scope.debug.status = data.message;
       });
     }
 

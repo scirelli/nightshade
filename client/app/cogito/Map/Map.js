@@ -9,6 +9,7 @@ angular.module('cg-map', [
       AroundMe.query(params, function(data, status, headers) {
         var points = data;
         $scope.map.points = points;
+        $scope.debug.status = data.message;
       }); 
     }
 
@@ -20,6 +21,7 @@ angular.module('cg-map', [
       }
     };
 
+    $scope.debug.status = AroundMe.MESSAGES.FETCHING_DATA;
     CurrentLocation.get(function(location) {
       Communicator.send(Communicator.MAP_SET_CENTER_CHANNEL, location);
       $scope.map.message = location.message;
