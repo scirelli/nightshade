@@ -14,6 +14,7 @@ angular.module('cg-list', [
       });
     }
 
+    $scope.debug.status = AroundMe.MESSAGES.FETCHING_DATA;
     CurrentLocation.get(function(location) {
       _fetchAroundMe(location);
     });
