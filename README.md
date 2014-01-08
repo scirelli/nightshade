@@ -1,8 +1,43 @@
-Repo for the Event and other source. 
+# NightShade #
+ 
+The beginning of our planner app.
 
-More coming soon
+### Application Stack ######
 
-HOW TO:
+- [Node.js](http://www.nodejs.org)
 
-Create projects:
-    Create a folder for a project. Do not use the root folder for code.
+- [Express](http://www.expressjs.com/)
+
+- [Jade](http://jade-lang.com/)
+
+- [Angular 1.1.1](http://angularjs.org/)
+
+- [jQuery 1.10.2](jquery.com)
+
+- [Bootstrap 3](http://getbootstrap.com/)
+
+### Node Dependencies ######
+
+    cd server
+    npm install
+
+### Launch ######
+
+    # in server/
+    node server.js
+
+### Heroku ######
+
+Reference the [Getting Started Guide](https://devcenter.heroku.com/articles/getting-started-with-nodejs) for Node.js
+
+    # add heroku remote git repo to current local git repo
+    heroku create nightshade-1
+
+    # push changes to heroku server
+    git push heroku master
+
+    # check to see if server is running
+    heroku ps
+
+    # open heroku app in browser
+    heroku open
