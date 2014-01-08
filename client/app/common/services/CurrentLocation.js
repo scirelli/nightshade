@@ -79,7 +79,9 @@ angular.module('common.services.currentlocation', [])
 
       locator.getCurrentPosition(function(position) {
         _successfulGeolocation(position);
-        callback(_location);
+        $timeout(function() {
+          callback(_location);
+        }, 100);
       }, function(error) {
         _failedGeolocation(error);
         callback(_location);

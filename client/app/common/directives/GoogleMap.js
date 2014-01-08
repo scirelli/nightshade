@@ -18,6 +18,7 @@ angular.module("common.directives.googlemap", [])
       point.position = latLng;
       point.map = config.map;
       point.title = config.title;
+      point.actionUrl = config.actionUrl;
       point.url = config.url;
       point.description = config.description;
 
@@ -46,6 +47,7 @@ angular.module("common.directives.googlemap", [])
           lat: point.lat, 
           lon: point.lon, 
           description: point.description,
+          actionUrl: point.actionUrl,
           url: point.url,
           map: _map, 
           clickCallback: clickCallback,

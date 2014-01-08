@@ -24,7 +24,8 @@ angular.module('common.services.aroundme', [])
         try{
           translated.push({
             name: item.name,
-            description: deal.additional_restrictions || deal.title,
+            description: deal.title,
+            actionUrl: deal.options[0].purchase_url,
             url: item.url,
             lat: item._location.lat,
             lon: item._location.lon

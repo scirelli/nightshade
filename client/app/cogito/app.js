@@ -52,6 +52,7 @@ angular.module("cogito", [
           title: marker.title,
           url: marker.url,
           description: marker.description,
+          actionUrl: marker.actionUrl,
           lat: marker.lat,
           lon: marker.lon
         };
