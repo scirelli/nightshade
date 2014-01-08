@@ -1,12 +1,13 @@
 angular.module('common.services.currentlocation', [])
 
-  .factory('CurrentLocation', function($q) {
+  .factory('CurrentLocation', function($q, $timeout) {
     var MESSAGES = {
       NOT_SUPPORTED: 'Unable to obtain geolocation. Your browser does not support geolocation',
       PERMISSION_DENIED: 'Unable to obtain geolocation. You did not grant this application permission to obtain your location',
       POSITION_UNAVAILABLE: 'Unable to obtain gelocation. Your position is not available at the moment.',
       TIMEOUT: 'Unable to obtain geolocation. There was a timeout.',
-      UNKNOWN: 'Unable to obtain geolocation. Unknown geolocation error.'
+      UNKNOWN: 'Unable to obtain geolocation. Unknown geolocation error.',
+      CACHED: 'Using your last known position.'
     };
 
     var _location = {
@@ -39,6 +40,11 @@ angular.module('common.services.currentlocation', [])
       };
     }
 
+    function _cachedGeolocation() {
+      var message = 'Using your last known position. ( lat: ' + _location.lat + ' lon: ' + _location.lon + ' )';
+      _location.message = message;
+    }
+
     function _failedGeolocation(error) {
       switch(error.code) {
         case error.PERMISSION_DENIED:
@@ -57,6 +63,14 @@ angular.module('common.services.currentlocation', [])
     }
 
     function _get(callback) {
+      if(_location.lat && _location.lon) {
+        _cachedGeolocation();
+        $timeout(function() {
+          callback(_location);
+        }, 100);
+        return;
+      }
+
       var locator = _geolocator();
 
       if(!locator) {

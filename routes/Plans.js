@@ -10,17 +10,19 @@
 module.exports = function(User, Plan) {
 
   function get(req, res) {
-    User.get(req.session.user.id, function(err, user) {
-      Plan.get(user, req.param('id', null), function(err, plans) {
-        if(err) {
-          res.send(500, err);
-        }
-        else {
-          console.log('successfully fetched plans', plans);
-          res.send(200, plans);
-        }
-      });
-    });
+    // User.get(req.session.user.id, function(err, user) {
+    //   Plan.get(user, req.param('id', null), function(err, plans) {
+    //     if(err) {
+    //       res.send(500, err);
+    //     }
+    //     else {
+    //       console.log('successfully fetched plans', plans);
+    //       res.send(200, plans);
+    //     }
+    //   });
+    // });
+
+    
   }
 
   function post(req, res) {

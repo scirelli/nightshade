@@ -3,9 +3,7 @@ angular.module("cogito", [
   'ui.bootstrap', 
 
   // modules
-  'cg-table',
-  'cg-newplan',
-  'cg-plan',
+  'cg-list',
   'cg-map',
 
   // /app/common
@@ -30,34 +28,16 @@ angular.module("cogito", [
 
     $routeProvider
       .when('/map', {
-        templateUrl: 'app/cogito/MapList/MapListTpl.html',
+        templateUrl: 'app/cogito/Map/MapTpl.html',
         controller: 'MapCtrl'
       })
-      .when('/table', {
-        templateUrl: 'app/cogito/TableList/TableListTpl.html', 
-        controller: 'TableCtrl',
-        resolve: {
-          plans: getPlans
-        }
+      .when('/list', {
+        templateUrl: 'app/cogito/List/ListTpl.html', 
+        controller: 'ListCtrl',
       })
-      .when('/plan/:id', {
-        templateUrl: 'app/cogito/Plan/PlanTpl.html', 
-        controller: 'PlanCtrl',
-        resolve: {
-          plan: function($route, Plans) {
-            return Plans.get($route.current.params.id);
-          }
-        }
-      })
-      .when('/plans/new', {templateUrl: 'app/cogito/NewPlan/NewPlanTpl.html', controller: 'NewPlanCtrl'})
-      
-
       .otherwise({
-        controller: 'TableCtrl',
-        templateUrl: 'app/cogito/TableList/TableListTpl.html',
-        resolve: {
-          plans: getPlans
-        }
+        controller: 'ListCtrl',
+        templateUrl: 'app/cogito/List/ListTpl.html',
       })
   })
 

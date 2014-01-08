@@ -15,10 +15,8 @@ block scripts
   script(src="app/#{_app}/app.js")
 
   //- modules
-  script(src="app/cogito/TableList/Table.js")
-  script(src="app/cogito/NewPlan/NewPlan.js")
-  script(src="app/cogito/Plan/Plan.js")
-  script(src="app/cogito/MapList/Map.js")
+  script(src="app/cogito/List/List.js")
+  script(src="app/cogito/Map/Map.js")
 
   //- common
   script(src="app/common/directives/Logo.js")
@@ -41,12 +39,14 @@ block scripts
 block content
   div(ng-app="cogito", ng-controller="CogitoCtrl")
     div.container
+      
       div.row
         div.span3
           include includes/navigation
         div.span9(ng-view, style="height: 700px;")
+
       div.row(style="margin-top:20px")
         div.span9
-          h3 selected marker
+          h3 Selected Event
           pre {{debug.marker | json}}
 

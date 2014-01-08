@@ -4,6 +4,7 @@ angular.module('common.services.aroundme', [])
 
     var AroundMe = {};
     var _aroundMe = false;
+    var _currentLocation = false;
 
     var AROUND_ME_REST_PATH = '/yelp';
 
@@ -22,21 +23,29 @@ angular.module('common.services.aroundme', [])
       }
     };
 
-    AroundMe.query= function(params, callback) {
-      params = params || {};
+    AroundMe.query= function(currentLocation, callback) {
+      currentLocation = currentLocation || {};
 
-      if(!callback) {
-        return $http.post(AROUND_ME_REST_PATH, params);
+      if(_aroundMe && _currentLocation && _currentLocation.lat === currentLocation.lat && _currentLocation.lon === currentLocation.lon) {
+        callback(_aroundMe, 200);
+        return;
       }
-      else if(typeof callback === 'function') {
-        $http.post(AROUND_ME_REST_PATH, params)
-          .success(callback)
-          .error(callback);
+
+      if(typeof callback !== 'function') {
+        throw 'AroundMe.query() expects a callback function';
       }
-      else {
-        console.log('AroundMe.query() expects a callback function');
-      }
+
+      _currentLocation = currentLocation;
+      $http.post(AROUND_ME_REST_PATH, currentLocation)
+        .success(function(data, status, headers) {
+          _aroundMe = data;
+          callback(data, status, headers);
+        })
+        .error(function(data, status, headers) {
+          callback(data, status, headers);
+        });
+      
     };
-    
+
     return AroundMe;
   });

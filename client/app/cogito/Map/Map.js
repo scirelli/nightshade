@@ -5,8 +5,6 @@ angular.module('cg-map', [
 ])
   .controller('MapCtrl', function($scope, CurrentLocation, AroundMe, Communicator) {
 
-    var self = this;
-
     function _translator(items) {
       var translated = [];
 
@@ -34,15 +32,6 @@ angular.module('cg-map', [
       }); 
     }
 
-    CurrentLocation.get(function(location) {
-      Communicator.send(Communicator.MAP_SET_CENTER_CHANNEL, location);
-      $scope.$apply(function() {
-        $scope.map.message = location.message;
-      });
-
-      _fetchAroundMe(location);
-    });
-
     $scope.map = {
       points: [],
       message: 'Obtaining your geolocation...',
@@ -51,10 +40,11 @@ angular.module('cg-map', [
       }
     };
 
-    
+    CurrentLocation.get(function(location) {
+      Communicator.send(Communicator.MAP_SET_CENTER_CHANNEL, location);
+      $scope.map.message = location.message;
 
-    $scope.$watch('map.bounds', function(newValue, oldValue) {
-      // console.log(newValue, oldValue);
+      _fetchAroundMe(location);
     });
 
   });
