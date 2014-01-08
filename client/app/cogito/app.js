@@ -59,4 +59,26 @@ angular.module("cogito", [
           plans: getPlans
         }
       })
-  });
+  })
+
+  .controller('CogitoCtrl', function($scope, Communicator) {
+
+
+    $scope.$on(Communicator.MAP_MARKER_SELECTED_CHANNEL, function($e, data) {
+      var marker = Communicator.packet;
+
+      if(marker) {
+        $scope.debug.marker = {
+          title: marker.title,
+          lat: marker.lat,
+          lon: marker.lon
+        };
+        $scope.$apply();
+      }
+    });
+
+    $scope.debug = {
+      marker: null
+    };
+
+  })

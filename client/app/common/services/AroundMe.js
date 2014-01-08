@@ -2,7 +2,7 @@ angular.module('common.services.aroundme', [])
   .factory('AroundMe', function($http) {
     var self = this;
 
-    var aroundMe = {};
+    var AroundMe = {};
     var _aroundMe = false;
 
     var AROUND_ME_REST_PATH = '/yelp';
@@ -22,9 +22,8 @@ angular.module('common.services.aroundme', [])
       }
     };
 
-    aroundMe.query= function(params, callback) {
+    AroundMe.query= function(params, callback) {
       params = params || {};
-      // var url = AROUND_ME_REST_PATH + '?' + jQuery.param(params);
 
       if(!callback) {
         return $http.post(AROUND_ME_REST_PATH, params);
@@ -39,5 +38,5 @@ angular.module('common.services.aroundme', [])
       }
     };
     
-    return aroundMe;
+    return AroundMe;
   });

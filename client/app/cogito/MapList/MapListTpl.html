@@ -1,4 +1,4 @@
-<div ng-hide="map.hasLocation">Obtaining Location</div>
+<div>{{map.message}}</div>
 <googlemap 
   style="height: 100%;"
 
@@ -6,6 +6,8 @@
   center="map.center" 
   bounds="map.bounds"
   mapZoom="map.mapZoom"    
+
+  on-marker-click="map.markerClick(marker)"
   >
 
 </googlemap>

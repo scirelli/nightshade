@@ -1,7 +1,9 @@
 angular.module('cg-map', [
+  'lib.services.communicator',
+
   'common.services.aroundme'
 ])
-  .controller('MapCtrl', function($scope, CurrentLocation, AroundMe) {
+  .controller('MapCtrl', function($scope, CurrentLocation, AroundMe, Communicator) {
 
     var self = this;
 
@@ -24,30 +26,32 @@ angular.module('cg-map', [
       return translated;
     }
 
+    function _fetchAroundMe(params) {
+      AroundMe.query(params, function(data, status, headers) {
+        var points = _translator(data);
+
+        $scope.map.points = points;
+      }); 
+    }
 
     CurrentLocation.get(function(location) {
-      if(!$scope.$$phase || !$scope.$root.$$phase) {
-        $scope.$apply(function() {
-          $scope.map.center = location;
-          $scope.map.hasLocation = true;
-        });
-      }
-      else {
-        $scope.map.center = location;
-        $scope.map.hasLocation = true;
-      }
+      Communicator.send(Communicator.MAP_SET_CENTER_CHANNEL, location);
+      $scope.$apply(function() {
+        $scope.map.message = location.message;
+      });
+
+      _fetchAroundMe(location);
     });
 
     $scope.map = {
       points: [],
-      hasLocation: false
+      message: 'Obtaining your geolocation...',
+      markerClick: function(marker) {
+        Communicator.send(Communicator.MAP_MARKER_SELECTED_CHANNEL, marker);
+      }
     };
 
-    // AroundMe.query({}, function(data, status, headers) {
-    //   var points = _translator(data);
-
-    //   $scope.map.points = points;
-    // });
+    
 
     $scope.$watch('map.bounds', function(newValue, oldValue) {
       // console.log(newValue, oldValue);

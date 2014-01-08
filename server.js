@@ -74,7 +74,7 @@ function auth(req, res, next) {
   }
 }
 
-app.get('/', auth, CogitoRoutes.index);
+app.get('/', CogitoRoutes.index);
 
 app.post('/login', UserRoutes.login);
 app.get('/logout', UserRoutes.logout);
@@ -87,7 +87,6 @@ app.post('/plans', PlansRoutes.post);
 app.put('/plans', PlansRoutes.put);
 
 app.post('/yelp', YelpRoutes.fetch);
-app.get('/yelp', YelpRoutes.fetch);
 app.post('/aroundme', AroundMeRoutes.fetch);
 app.get('/aroundme', AroundMeRoutes.fetch);
 

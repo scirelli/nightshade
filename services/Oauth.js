@@ -21,9 +21,11 @@ module.exports = function(OAuth, querystring) {
   }
 
   function get(path, params, callback) {
-    console.log('oauth get');
+    path = path + '?' + querystring.stringify(params);
+
+    console.log('oauth get', path)
     return _oauth.get(
-      path + '?' + querystring.stringify(params),
+      path,
       _oauthToken,
       _oauthTokenSecret,
       function(err, data, res) {

@@ -1,5 +1,10 @@
 module.exports = function(OAuth, Geocoder, YelpConfig) {
 
+  var _geocodedData = [],
+      _completedTasks = 0,
+      _tasks = [],
+      _yelpData = [];
+
   function _getAddress(item) {
     var address = '';
     if(item.location) {
@@ -19,70 +24,91 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
     
   }
 
-  function search(callback) {
+  function _reset() {
+    _geocodedData = [];
+    _completedTasks = [];
+    _tasks = [];
+    _yelpData = [];
+  }
+
+  function _checkIfComplete(callback) {
+    _completedTasks++;
+    console.log('completed tatsks', _completedTasks, _tasks.length);
+    if(_completedTasks === _tasks.length) {
+      callback(false, _yelpData);
+      _reset();
+    }
+  }
+
+  function _getlocationQuery(params) {
+    params = params || {};
+
+    if(params.lat && params.lon) {
+      return params.lat + ',' + params.lon;
+    }
+    else {
+      return null;
+    }
+  }
+
+  function _getLatLon(address, item, callback) {
+    Geocoder.query(address, function(error, geoData) {
+      console.log('returned data');
+      console.log(geoData);
+
+      item['_location'] = geoData;
+      _yelpData.push(item);
+
+      _checkIfComplete(callback);
+    });
+  }
+
+  function search(params, callback) {
     OAuth.client(YelpConfig);
+ 
+    var yelpParams = {};
+    yelpParams.ll = _getlocationQuery(params);
+    yelpParams.category_filter = 'arts,active,food,yelpevents,nightlife';
+    yelpParams.deals_filter = true;
+    yelpParams.limit = 5;
 
-    var params = {
-      term: 'food',
-      location: 'Washington, DC',
-      // category_filter: 'active',
-      deals_filter: true,
-      limit: 5
-    };
+    if(!yelpParams.ll) {
+      delete yelpParams.ll
+    }
 
-    OAuth.get('http://api.yelp.com/v2/search', params, function(err, data, res) {
-      try{
-        data =  JSON.parse(data);
+    OAuth.get('http://api.yelp.com/v2/search', yelpParams, function(err, data, res) {
+      var yelp;
+      try {
+        yelp =  JSON.parse(data);
       }
       catch(e) {}
 
-      var items = data.businesses,
-          geocodedData = [],
-          index = 0,
-          data = [],
-          address;
+      var yelpItems = yelp.businesses;
 
-      items.forEach(function(item, index) {
-        address = _getAddress(item); 
+      console.log('yelp data returned', yelpItems);
 
-        if(address) {
-          Geocoder.query(address, function(err, res) {
-            var geoData = '';
-            res.on('data', function(data) {
-              geoData += data;
-            });
+      if(yelpItems.length == 0) {
+        callback(false, []);
+      }
+      yelpItems.forEach(function(yelpItem, index) {
 
-            res.on('end', function() {
-              try{
-                geoData = JSON.parse(geoData);
-              }
-              catch(e) {
-                return;
-              };
-
-              ++index;
-
-              geoData = Geocoder.latLonExtractor(geoData.results);
-
-              console.log('testing geoData', geoData)
-              if(geoData) {
-                item['_location'] = geoData;
-                console.log(item);
-                if(index == items.length) {
-                  callback(items);
+          var task = (function(item) {
+              return function() {
+                var address = _getAddress(item); 
+                if(address) {
+                  _getLatLon(address, item, callback);
                 }
-              }
-              else{
-                callback([]);
-              }
-            });
-          });
-        }
-        else {
-          console.log('address was not found from yelp results');
-          callback([]);
-        }
+              };
+          })(yelpItem);
+
+          _tasks.push(task);
       });
+
+      for(var task in _tasks) {
+        if(_tasks.hasOwnProperty(task)) {
+          _tasks[task]();
+        }
+      }
 
     });
   }
@@ -92,3 +118,36 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
   };
 
 }
+
+
+// Geocoder.query(address, function(err, res) {
+//             var geoData = '';
+//             res.on('data', function(data) {
+//               geoData += data;
+//             });
+
+//             res.on('end', function() {
+//               try{
+//                 geoData = JSON.parse(geoData);
+//               }
+//               catch(e) {
+//                 return;
+//               };
+
+//               ++index;
+
+//               geoData = Geocoder.latLonExtractor(geoData.results);
+
+//               console.log('testing geoData', geoData)
+//               if(geoData) {
+//                 item['_location'] = geoData;
+//                 console.log(item);
+//                 if(index == items.length) {
+//                   callback(items);
+//                 }
+//               }
+//               else{
+//                 callback([]);
+//               }
+//             });
+//           });

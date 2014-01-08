@@ -16,6 +16,7 @@ module.exports = function(http, querystring, GeocodeConfig) {
       }
     }
     else {
+      console.log('something else went wrong', results);
       return false;
     }
   }
@@ -31,24 +32,31 @@ module.exports = function(http, querystring, GeocodeConfig) {
     };
 
     var request = http.request(options, function(res) {
-      // var geoData = '';
-      // res.on('data', function(data) {
-      //   geoData += data;
-      // });
+      var geoData = '';
+      res.on('data', function(data) {
+        console.log('adding data');
+        geoData += data;
+      });
 
-      callback(false, res);
-      // res.on('end', function() {
-      //   try{
-      //     geoData = JSON.parse(geoData);
-      //   }
-      //   catch(e) {
-      //     callback(true, e);
-      //     return;
-      //   };
+      res.on('end', function() {
+        try{
+          geoData = JSON.parse(geoData);
+        }
+        catch(e) {
+          callback(true, e);
+          return;
+        };
 
-      //   geoData = _extractor(geoData);
-      //   callback(false, geoData);
-      // });
+        geoData = latLonExtractor(geoData.results);
+        if(geoData) {
+          callback(false, geoData);
+          return;
+        }
+        else {
+          callback(true, 'failed to extract lat lon from geocoder');
+          return;
+        }
+      });
 
     });
 

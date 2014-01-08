@@ -24,7 +24,6 @@ angular.module("common.directives.googlemap", [])
       marker.lon = marker.getPosition().lng();
 
       google.maps.event.addListener(marker, 'click', _clickCallback(marker, config.clickCallback)); 
-
       config.addCallback({marker: marker});
     }
 
@@ -33,6 +32,22 @@ angular.module("common.directives.googlemap", [])
         var latLng = new google.maps.LatLng(lat, lon);
         _map.setCenter(latLng);
       });
+    }
+
+    function _addPoints(points, clickCallback, addCallback) {
+      var i, point, latLng, marker;
+      for(i = 0, len = points.length; i < len; ++i) {
+        point = points[i];
+
+        _addMarker({
+          title: point.name, 
+          lat: point.lat, 
+          lon: point.lon, 
+          map: _map, 
+          clickCallback: clickCallback,
+          addCallback: addCallback
+        });
+      }
     }
 
     return {
@@ -62,7 +77,7 @@ angular.module("common.directives.googlemap", [])
       template: '<div class="google-map fill"></div>',
 
       controller: function($scope, $element) {
-        $scope.$on(Communicator.CHANNEL, function(data) {
+        $scope.$on(Communicator.CHANNEL, function($e, data) {
           var point = Communicator.packet,
               latLon = _latLngConverter.fromPxToLatLon(point.x, point.y);
 
@@ -76,15 +91,24 @@ angular.module("common.directives.googlemap", [])
             });
         });
 
-        $scope.$watch('points', function(newValue, oldValue) {
-          console.log(newValue, oldValue);
-        });
-
-        $scope.$watch('center', function(newCenter) {
-          if(newCenter) {
-            _setCenter(newCenter.lat, newCenter.lon);
+        $scope.$watch('points', function(points) {
+          if(points && points.length > 0) {
+            _addPoints(points, $scope.onMarkerClick, $scope.onMarkerAdd)
           }
         });
+
+        // $scope.$watch('center', function(newCenter) {
+        //   if(newCenter) {
+        //     _setCenter(newCenter.lat, newCenter.lon);
+        //   }
+        // });
+
+        $scope.$on(Communicator.MAP_SET_CENTER_CHANNEL, function($e) {
+          var center = Communicator.packet;
+          if(center) {
+            _setCenter(center.lat, center.lon);
+          }
+        })
       },
 
       compile: function(element, attrs, transclude) {
@@ -157,19 +181,7 @@ angular.module("common.directives.googlemap", [])
           //   }
           // });
 
-          var i, point, latLng, marker;
-          for(i = 0, len = $scope.points.length; i < len; ++i) {
-            point = $scope.points[i];
-
-            _addMarker({
-              title: point.name, 
-              lat: point.lat, 
-              lon: point.lon, 
-              map: _map, 
-              clickCallback: $scope.onMarkerClick,
-              addCallback: $scope.onMarkerAdd
-            });
-          }
+          _addPoints($scope.points, $scope.onMarkerClick, $scope.onMarkerAdd) 
         };
       } 
     };
