@@ -12,6 +12,7 @@ angular.module('cg-map', [
         try{
           translated.push({
             name: item.name,
+            description: item.deals[0].what_you_get || '',
             lat: item._location.lat,
             lon: item._location.lon
           });
@@ -26,8 +27,7 @@ angular.module('cg-map', [
 
     function _fetchAroundMe(params) {
       AroundMe.query(params, function(data, status, headers) {
-        var points = _translator(data);
-
+        var points = data;
         $scope.map.points = points;
       }); 
     }

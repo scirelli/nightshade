@@ -8,20 +8,26 @@ angular.module('common.services.aroundme', [])
 
     var AROUND_ME_REST_PATH = '/yelp';
 
-    function _handler(callback) {
-      return function(data, status, headers, config) {
-        var error = false;
+    function _translator(items) {
+      var translated = [];
+      items = items || [];
 
-        if(status !== 200) {
-          error = true;
+      items.forEach(function(item, index) {
+        try{
+          translated.push({
+            name: item.name,
+            description: item.deals[0].what_you_get || '',
+            lat: item._location.lat,
+            lon: item._location.lon
+          });
         }
-        else {
-          _aroundMe = data;
+        catch(e) {
+          console.log('error translating', e.toString());
         }
+      }); 
 
-        callback.call(self, error, _aroundMe, status, headers, config);
-      }
-    };
+      return translated;
+    }
 
     AroundMe.query= function(currentLocation, callback) {
       currentLocation = currentLocation || {};
@@ -38,8 +44,8 @@ angular.module('common.services.aroundme', [])
       _currentLocation = currentLocation;
       $http.post(AROUND_ME_REST_PATH, currentLocation)
         .success(function(data, status, headers) {
-          _aroundMe = data;
-          callback(data, status, headers);
+          _aroundMe = _translator(data);
+          callback(_aroundMe, status, headers);
         })
         .error(function(data, status, headers) {
           callback(data, status, headers);

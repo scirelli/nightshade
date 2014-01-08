@@ -15,9 +15,10 @@ angular.module("common.directives.googlemap", [])
       var latLng = new google.maps.LatLng(config.lat, config.lon),
           point = {};
 
-      point.position = latLng,
-      point.map = config.map,
+      point.position = latLng;
+      point.map = config.map;
       point.title = config.title;
+      point.description = config.description;
 
       marker = new google.maps.Marker(point);
       marker.lat = marker.getPosition().lat();
@@ -43,6 +44,7 @@ angular.module("common.directives.googlemap", [])
           title: point.name, 
           lat: point.lat, 
           lon: point.lon, 
+          description: point.description,
           map: _map, 
           clickCallback: clickCallback,
           addCallback: addCallback
