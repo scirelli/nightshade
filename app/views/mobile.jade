@@ -7,18 +7,20 @@ html(lang='en')
 
     link(rel="stylesheet", href="/assets/css/nightshade.css")
 
+    script(src="/vendor/js/jquery-1.10.2.js")
   body
     div(class="ns")
 
-      div(class="row view-options-container")
-        div(class="view-option map-option border-right")
-          h1 Map
-        div(class="view-option list-option")
-          h1 List
+      div(class="row header")
+        aside(class="view-tray")
+          nav
+            a(href="#") Map
+            a(href="#") List
 
-      div(class="row body")
+        span(id="view-tray") V
+        div(class="logo") NightShade
         
+      div(class="row body")
 
-      div(class="row categories-container")
-      
+      div(class="row categories")
 

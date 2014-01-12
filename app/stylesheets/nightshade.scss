@@ -2,37 +2,53 @@
  * NightShade app structures
  */
 
+ /**
+ * NightShade app structures
+ */
+
 $APP_NAMESPACE: "ns";
 
-$view_options_height: 200px;
+$header_height: 109px;
 $categories_height: 200px;
+
+$left_tray_width: 25%;
 
 @import "includes/common";
 @import "includes/view-options";
 
-.#{$APP_NAMESPACE} {
+
+.ns {
   .row, .col {
-    overflow: hidden;
     position: absolute;
   }
 
   .row {
     left: 0;
     right: 0;
+
     margin-left: 0;
+
     border: 1px solid blue;
 
-    &section.header {
+    &.view-tray-active.header {
+      left: $left_tray_width;
+    }
+
+    &.header {
       top: 0;
-      height: $view_options_height;
+      height: $header_height;
+
+      @include transition(1.0s);
+
+      @import "header/view-tray";
     }
 
     &.body {
-      top: $view_options_height;
+      top: $header_height;
       bottom: $categories_height;
     }
 
-    &section.categories {
+    &.categories {
       bottom: 0;
       height: $categories_height;
     }
@@ -45,5 +61,4 @@ $categories_height: 200px;
   .scroll-y {
     overflow-y: auto;
   }
-
 }

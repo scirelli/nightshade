@@ -1,6 +1,9 @@
 /**
  * NightShade app structures
  */
+/**
+ * NightShade app structures
+ */
 .center-box-align, .ns .view-options-container .view-option {
   /* IE 10 */
   display: -ms-flexbox;
@@ -36,20 +39,31 @@
     background-color: #000; }
 
 .ns .row, .ns .col {
-  overflow: hidden;
   position: absolute; }
 .ns .row {
   left: 0;
   right: 0;
   margin-left: 0;
   border: 1px solid blue; }
-  .ns .row.view-options-container {
+  .ns .row.view-tray-active.header {
+    left: 25%; }
+  .ns .row.header {
     top: 0;
-    height: 200px; }
+    height: 109px;
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out; }
+    .ns .row.header .view-tray-active .view-tray {
+      left: 0; }
+    .ns .row.header .view-tray {
+      position: relative;
+      left: -25%;
+      z-index: 10; }
   .ns .row.body {
-    top: 200px;
+    top: 109px;
     bottom: 200px; }
-  .ns .row.categories-container {
+  .ns .row.categories {
     bottom: 0;
     height: 200px; }
 .ns .scroll-x {
