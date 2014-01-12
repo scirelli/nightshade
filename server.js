@@ -83,6 +83,7 @@ function auth(req, res, next) {
 }
 
 app.get('/', CogitoRoutes.index);
+app.get('/mobile', CogitoRoutes.mobile);
 
 app.post('/login', UserRoutes.login);
 app.get('/logout', UserRoutes.logout);

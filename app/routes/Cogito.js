@@ -8,8 +8,13 @@ module.exports = function() {
     res.render('cogito.jade');
   }
 
+  function mobile(req, res) {
+    res.render('mobile.jade');
+  }
+
   return {
     index: index,
-    cogito: cogito 
+    cogito: cogito,
+    mobile: mobile
   };
 }
