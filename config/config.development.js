@@ -6,9 +6,6 @@ config.PORT = {};
 config.PORT.HTTP = process.env.PORT || '1337';
 config.PORT.HTTPS = process.env.PORT || '8443';
 
-// paths
-config.PUBLIC_PATH = __dirname + '/../client';
-
 // certs needed for https
 config.CERTS = {};
 config.CERTS.CERT_PATH = '/server/cert';

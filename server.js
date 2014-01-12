@@ -10,17 +10,18 @@ var express     = require('express'),
     mongoose    = require('mongoose'),
     MemoryStore = require('connect').session.MemoryStore,
     db          = null,
+    sass        = require('node-sass'),    
     Session     = require('connect').session,
     sessionStore = new MemoryStore();
 
 Object.extend(global, proto); 
 
 // interfaces
-var INotications      = require('./services/interfaces/INotifications.js')(),
-    OAuth             = require('./services/OAuth.js')(oauth, querystring),
-    GoogleGeocoder    = require('./services/GoogleGeocoder')(http, querystring, cfg.GOOGLE_GEOCODER),
-    Yelp              = require('./services/Yelp.js')(OAuth, GoogleGeocoder, cfg.YELP),
-    LocationNotifiers = require('./services/LocationNotifiers.js')(INotications),
+var INotications      = require(cfg.PATH.APP_PATH + '/services/interfaces/INotifications.js')(),
+    OAuth             = require(cfg.PATH.APP_PATH + '/services/OAuth.js')(oauth, querystring),
+    GoogleGeocoder    = require(cfg.PATH.APP_PATH + '/services/GoogleGeocoder')(http, querystring, cfg.GOOGLE_GEOCODER),
+    Yelp              = require(cfg.PATH.APP_PATH + '/services/Yelp.js')(OAuth, GoogleGeocoder, cfg.YELP),
+    LocationNotifiers = require(cfg.PATH.APP_PATH + '/services/LocationNotifiers.js')(INotications),
     LocationNotifier  = new LocationNotifiers();
 
 var yelpListener = Class.create( INotications.IListener,{
@@ -32,23 +33,30 @@ var yelpListener = Class.create( INotications.IListener,{
 
 LocationNotifier.register( new yelpListener() );
 
-var Plan = require('./models/Plan.js')({}, mongoose);
-var User = require('./models/User.js')({}, Plan, mongoose);
+var Plan = require(cfg.PATH.APP_PATH + '/models/Plan.js')({}, mongoose);
+var User = require(cfg.PATH.APP_PATH + '/models/User.js')({}, Plan, mongoose);
 
 var server = http.createServer(app);
 var port = cfg.PORT.HTTP;
 
-var CogitoRoutes = require('./routes/Cogito.js')();
-var UserRoutes = require('./routes/User.js')(User);
-var PlansRoutes = require('./routes/Plans.js')(User, Plan);
-var YelpRoutes = require('./routes/Yelp.js')(Yelp);
-var AroundMeRoutes = require('./routes/AroundMe.js')(LocationNotifier);
+var CogitoRoutes = require(cfg.PATH.APP_PATH + '/routes/Cogito.js')();
+var UserRoutes = require(cfg.PATH.APP_PATH + '/routes/User.js')(User);
+var PlansRoutes = require(cfg.PATH.APP_PATH + '/routes/Plans.js')(User, Plan);
+var YelpRoutes = require(cfg.PATH.APP_PATH + '/routes/Yelp.js')(Yelp);
+var AroundMeRoutes = require(cfg.PATH.APP_PATH + '/routes/AroundMe.js')(LocationNotifier);
 
 app.configure(function() {
     'use strict';
     /* views */
+    app.set('views', cfg.PATH.APP_PATH + '/views');
     app.set('view engine', 'jade');
-    app.use(express.static(cfg.PUBLIC_PATH));
+    app.use(sass.middleware({
+        src: cfg.PATH.STYLESHEETS,
+        dest: cfg.PATH.CSS,
+        prefix: '/assets/css',
+        debug: true
+    }));
+    app.use(express.static(cfg.PATH.PUBLIC));
 
     /* limit data handled by server */
     app.use(express.limit('1mb'));
