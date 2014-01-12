@@ -10,7 +10,7 @@ config.YELP = {
 config.PATH = {};
 
 // server app
-config.PATH.APP_PATH = __dirname + '/../app';
+config.PATH.APP = __dirname + '/../app';
 
 // client
 config.PATH.PUBLIC = __dirname + '/../client';
@@ -18,5 +18,4 @@ config.PATH.PUBLIC = __dirname + '/../client';
 // stylesheets/css
 config.PATH.ASSETS = config.PATH.PUBLIC + '/assets';
 config.PATH.CSS = config.PATH.ASSETS + '/css';
-config.PATH.STYLESHEETS = config.PATH.APP_PATH + '/stylesheets';
-
+config.PATH.STYLESHEETS = config.PATH.APP + '/stylesheets';
