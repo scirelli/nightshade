@@ -11,15 +11,15 @@ $APP_NAMESPACE: "ns";
 $header_height: 109px;
 $categories_height: 200px;
 
-$left_tray_width: 25%;
+$options_tray_width: 25%;
 
 @import "includes/common";
-@import "includes/view-options";
-
 
 .ns {
+
   .row, .col {
     position: absolute;
+    overflow: hidden;
   }
 
   .row {
@@ -30,17 +30,11 @@ $left_tray_width: 25%;
 
     border: 1px solid blue;
 
-    &.view-tray-active.header {
-      left: $left_tray_width;
-    }
-
     &.header {
       top: 0;
       height: $header_height;
 
-      @include transition(1.0s);
-
-      @import "header/view-tray";
+      @import "header/logo";
     }
 
     &.body {
@@ -48,9 +42,26 @@ $left_tray_width: 25%;
       bottom: $categories_height;
     }
 
-    &.categories {
+    &.footer {
       bottom: 0;
       height: $categories_height;
+    }
+  }
+
+  .col {
+    top: 0;
+    bottom: 0;
+
+    border: 1px solid red;
+
+    &.main {
+      left: 0;
+      right: 0;
+    }
+
+    &.options-tray{
+      width: $options_tray_width;
+      right: 0;
     }
   }
 

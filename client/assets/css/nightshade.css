@@ -4,7 +4,7 @@
 /**
  * NightShade app structures
  */
-.center-box-align, .ns .view-options-container .view-option {
+.center-box-align {
   /* IE 10 */
   display: -ms-flexbox;
   -ms-flex-pack: center;
@@ -22,50 +22,35 @@
   box-pack: center;
   box-align: center; }
 
-.ns .view-options-container .view-option {
-  width: 50%;
-  height: 100%;
-  position: relative;
-  float: left;
-  background-color: #bcbcbc;
-  color: #fff; }
-  .ns .view-options-container .view-option.border-right:after {
-    content: ' ';
-    width: 1px;
-    height: 100%;
-    position: absolute;
-    left: 100%;
-    z-index: 10;
-    background-color: #000; }
-
 .ns .row, .ns .col {
-  position: absolute; }
+  position: absolute;
+  overflow: hidden; }
 .ns .row {
   left: 0;
   right: 0;
   margin-left: 0;
   border: 1px solid blue; }
-  .ns .row.view-tray-active.header {
-    left: 25%; }
   .ns .row.header {
     top: 0;
-    height: 109px;
-    -webkit-transition: all 1s ease-in-out;
-    -moz-transition: all 1s ease-in-out;
-    -o-transition: all 1s ease-in-out;
-    transition: all 1s ease-in-out; }
-    .ns .row.header .view-tray-active .view-tray {
-      left: 0; }
-    .ns .row.header .view-tray {
-      position: relative;
-      left: -25%;
-      z-index: 10; }
+    height: 109px; }
+    .ns .row.header .logo {
+      border: 1px solid green; }
   .ns .row.body {
     top: 109px;
     bottom: 200px; }
-  .ns .row.categories {
+  .ns .row.footer {
     bottom: 0;
     height: 200px; }
+.ns .col {
+  top: 0;
+  bottom: 0;
+  border: 1px solid red; }
+  .ns .col.main {
+    left: 0;
+    right: 0; }
+  .ns .col.options-tray {
+    width: 25%;
+    right: 0; }
 .ns .scroll-x {
   overflow-x: auto; }
 .ns .scroll-y {
