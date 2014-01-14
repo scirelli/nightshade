@@ -11,11 +11,21 @@ $APP_NAMESPACE: "ns";
 $header_height: 109px;
 $categories_height: 200px;
 
-$options_tray_width: 25%;
+$options_tray_width: 75%;
 
+$header_background_color: #000;
+$tray_background_color: #333333;
+$footer_background_color: #000;
+
+$mobile_font_size: 3em;
+$font_color: #fff;
+
+@import "includes/reset";
 @import "includes/common";
 
 .ns {
+
+  font-size: $mobile_font_size;
 
   .row, .col {
     position: absolute;
@@ -28,23 +38,31 @@ $options_tray_width: 25%;
 
     margin-left: 0;
 
-    border: 1px solid blue;
-
     &.header {
+      @extend .center-box-align;
+
       top: 0;
       height: $header_height;
 
+      background-color: $header_background_color;
+      color: $font_color;
+
       @import "header/logo";
+      @import "header/options-tray-control";
     }
 
     &.body {
       top: $header_height;
       bottom: $categories_height;
+
     }
 
     &.footer {
       bottom: 0;
       height: $categories_height;
+
+      background-color: $footer_background_color;
+      color: $font_color;
     }
   }
 
@@ -52,16 +70,20 @@ $options_tray_width: 25%;
     top: 0;
     bottom: 0;
 
-    border: 1px solid red;
-
     &.main {
       left: 0;
       right: 0;
     }
 
-    &.options-tray{
-      width: $options_tray_width;
+    &.options-tray {
+      width: 0;
       right: 0;
+
+      * {
+        display: none;
+      }
+
+      @import "body/options-tray/options-tray";
     }
   }
 

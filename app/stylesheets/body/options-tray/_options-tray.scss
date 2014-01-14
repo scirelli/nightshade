@@ -1,0 +1,21 @@
+& {
+  $tray_padding: 20px;
+  $tray_padding_top: 40px;
+
+  @include transition(0.2s);
+
+  background-color: $tray_background_color;
+  color: $font_color;
+
+  @import "view-options";
+
+  &.active {
+    width: $options_tray_width; 
+    padding: $tray_padding;
+    padding-top: $tray_padding_top;
+
+    * {
+      display: block;
+    }
+  }
+}

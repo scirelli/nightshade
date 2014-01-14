@@ -17,10 +17,13 @@ html(lang='en')
 
       div(class="row body")
         div(class="col main")
-          | Main
 
         div(class="col options-tray")
-          | Options Tray
+          h3 Data Status
+          pre {{debug.status}}
+          
+          h3 Selected Event
+          pre {{debug.marker | json}}
 
       div(class="row footer")
 

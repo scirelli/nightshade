@@ -7,13 +7,9 @@ angular.module("cogito", [
   'cg-map',
 
   // /app/common
-  'common.directives.logo',
-  'common.directives.header',
-  'common.directives.navigation',
-  'common.directives.editable',
   'common.directives.googlemap',
-  'common.services.plans',
-  'common.services.latlngconverter',
+  'common.directives.optionstraycontrol',
+  
   'common.services.currentlocation',
 
   // /app/lib
@@ -28,16 +24,16 @@ angular.module("cogito", [
 
     $routeProvider
       .when('/map', {
-        templateUrl: 'app/cogito/Map/MapTpl.html',
-        controller: 'MapCtrl'
+        controller: 'MapCtrl',
+        templateUrl: 'app/cogito/Map/MapTpl.html'
       })
       .when('/list', {
-        templateUrl: 'app/cogito/List/ListTpl.html', 
         controller: 'ListCtrl',
+        templateUrl: 'app/cogito/List/ListTpl.html'
       })
       .otherwise({
-        controller: 'ListCtrl',
-        templateUrl: 'app/cogito/List/ListTpl.html',
+        controller: 'MapCtrl',
+        templateUrl: 'app/cogito/Map/MapTpl.html',
       })
   })
 
@@ -59,6 +55,10 @@ angular.module("cogito", [
         $scope.$apply();
       }
     });
+
+    $scope.optionsTray = {
+      active: false
+    };
 
     $scope.debug = {
       marker: null

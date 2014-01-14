@@ -1,4 +1,16 @@
-.#{$APP_NAMESPACE} {
+.options-tray-control {
+  width: 15%;
+  height: 100%;
 
+  position: absolute;
+  right: 0;
+
+  font-size: 2em;
+
+  @extend .center-box-align;
+
+  a {
+    color: $font_color;
+    text-decoration: none;
+  }
 }
-

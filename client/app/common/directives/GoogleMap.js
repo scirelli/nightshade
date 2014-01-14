@@ -1,5 +1,5 @@
 angular.module("common.directives.googlemap", [])
-  .directive('googlemap', function(Communicator, LatLngConverter, $timeout) {
+  .directive('googlemap', function(Communicator, $timeout) {
 
     var _map;
 
@@ -83,31 +83,12 @@ angular.module("common.directives.googlemap", [])
       template: '<div class="google-map fill"></div>',
 
       controller: function($scope, $element) {
-        // $scope.$on(Communicator.CHANNEL, function($e, data) {
-        //   var point = Communicator.packet,
-        //       latLon = _latLngConverter.fromPxToLatLon(point.x, point.y);
-
-        //     _addMarker({
-        //       title: '', 
-        //       lat: latLon.lat(), 
-        //       lon: latLon.lng(), 
-        //       map: _map, 
-        //       clickCallback: $scope.onMarkerClick,
-        //       addCallback: $scope.onMarkerAdd
-        //     });
-        // });
 
         $scope.$watch('points', function(points) {
           if(points && points.length > 0) {
             _addPoints(points, $scope.onMarkerClick, $scope.onMarkerAdd)
           }
         });
-
-        // $scope.$watch('center', function(newCenter) {
-        //   if(newCenter) {
-        //     _setCenter(newCenter.lat, newCenter.lon);
-        //   }
-        // });
 
         $scope.$on(Communicator.MAP_SET_CENTER_CHANNEL, function($e) {
           var center = Communicator.packet;
@@ -134,8 +115,6 @@ angular.module("common.directives.googlemap", [])
             zoom: 13,
             mapTypeId: google.maps.MapTypeId.ROADMAP
           });
-
-          _latLngConverter = new LatLngConverter(_map);
 
           google.maps.event.addListener(_map, 'center_changed', function() {
             $scope.$apply(function() {

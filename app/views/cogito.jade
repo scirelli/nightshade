@@ -1,4 +1,3 @@
-
 extend layout
 
 block styles
@@ -17,14 +16,9 @@ block scripts
   script(src="app/cogito/Map/Map.js")
 
   //- common
-  script(src="app/common/directives/Logo.js")
-  script(src="app/common/directives/Header.js")
-  script(src="app/common/directives/Navigation.js")
-  script(src="app/common/directives/Editable.js")
   script(src="app/common/directives/GoogleMap.js")
-  script(src="app/common/services/Plans.js")
+  script(src="app/common/directives/OptionsTrayControl.js")
   script(src="app/common/services/AroundMe.js")
-  script(src="app/common/services/LatLngConverter.js")
   script(src="app/common/services/CurrentLocation.js")
   //- services
   //- script(src="app/#{_app}/Socket.js")
@@ -35,20 +29,32 @@ block scripts
   script(src="app/lib/services/Communicator.js")
 
 block content
-  div(ng-app="cogito", ng-controller="CogitoCtrl")
-    div.container
+  div(class="ns", ng-app="cogito", ng-controller="CogitoCtrl")
+    div(class="row header")
+      div(class="logo") 
       
-      div.row
-        div.span3
-          include includes/navigation
-        div.span9(ng-view, style="height: 700px;")
+      div(optionstraycontrol) 
+      //- div(class="options-tray-control")
+      //-   a(href="#")
+      //-     span(class="icon-menu")
 
-      div.row(style="margin-top:20px")
-        div.span9
+    div(class="row body")
+      div(class="col main")
+        div(ng-view, style="height:100%;")
 
+      div(optionstray, class="col options-tray", ng-class="{ 'active': optionsTray.active }")
+        div(class="view-options clearfix")
+          a(href="#/map", ng-click="optionsTray.active =! optionsTray.active")
+            div(class="option icon-map") 
+              span(class="option-text") Map
+
+          a(href="#/list", ng-click="optionsTray.active =! optionsTray.active")
+            div(class="option icon-list") 
+              span(class="option-text") List
+
+        div(class="debug")
           h3 Data Status
           pre {{debug.status}}
-          
-          h3 Selected Event
-          pre {{debug.marker | json}}
+
+    div(class="row footer")
 

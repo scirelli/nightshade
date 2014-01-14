@@ -1,0 +1,23 @@
+.view-options {
+
+  a {
+    color: $font_color;
+    text-decoration: none;
+  }
+
+  .option {
+
+    width: 50%;
+    float: left;
+
+    text-align: center;
+    font-size: 2em;
+
+    .option-text {
+
+      display: none;
+
+    }
+  }
+  
+}
