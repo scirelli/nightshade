@@ -12,6 +12,9 @@ $header_height: 109px;
 $categories_height: 200px;
 
 $options_tray_width: 75%;
+$options_tray_z_index: 10;
+
+$map_status_z_index: 5;
 
 $header_background_color: #000;
 $tray_background_color: #333333;
@@ -56,6 +59,7 @@ $font_color: #fff;
       bottom: $categories_height;
 
 
+      @import "body/map/map";
       @import "body/list/list";
     }
 

@@ -63,6 +63,16 @@ div {
     .ns .row.body {
       top: 109px;
       bottom: 200px; }
+      .ns .row.body .map {
+        height: 100%; }
+        .ns .row.body .map .status {
+          width: 50%;
+          position: absolute;
+          left: 25%;
+          z-index: 5;
+          background-color: white;
+          font-size: 0.75em;
+          text-align: center; }
       .ns .row.body .list .table {
         width: 100%;
         margin-bottom: 20px;
@@ -103,7 +113,8 @@ div {
         -o-transition: all 0.2s ease-in-out;
         transition: all 0.2s ease-in-out;
         background-color: #333333;
-        color: #fff; }
+        color: #fff;
+        z-index: 10; }
         .ns .col.options-tray .view-options a {
           color: #fff;
           text-decoration: none; }

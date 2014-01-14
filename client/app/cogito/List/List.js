@@ -4,7 +4,9 @@ angular.module('cg-list', [
   'common.services.aroundme'
 ])
   .controller("ListCtrl", function($scope, CurrentLocation, AroundMe, Communicator) {
-    $scope.list = {};
+    $scope.list = {
+      fetchedData: false
+    };
 
     function _fetchAroundMe(params) {
       AroundMe.query(params, function(data, status, headers) {
@@ -17,6 +19,7 @@ angular.module('cg-list', [
 
         var items = data;
         $scope.list.items = items;
+        $scope.list.fetchedData = true;
         $scope.debug.status = data.message;
       });
     }

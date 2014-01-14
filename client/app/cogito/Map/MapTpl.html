@@ -1,13 +1,25 @@
-<googlemap 
-  style="height: 100%;"
+<div class="map">
+  <div class="status">
+    <div ng-show="map.fetchedData && map.points.length == 0">
+      <span>There are no results in your area</span>
+    </div>
 
-  points="map.points"
-  center="map.center" 
-  bounds="map.bounds"
-  mapZoom="map.mapZoom"    
+    <div ng-hide="map.fetchedData">
+      <span>{{debug.status}}</span>
+    </div>
+  </div>
 
-  on-marker-click="map.markerClick(marker)"
-  >
+  <googlemap 
+    style="height: 100%;"
 
-</googlemap>
+    points="map.points"
+    center="map.center" 
+    bounds="map.bounds"
+    mapZoom="map.mapZoom"    
+
+    on-marker-click="map.markerClick(marker)"
+    >
+
+  </googlemap>
+</div>
 

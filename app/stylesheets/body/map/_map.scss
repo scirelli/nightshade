@@ -1,0 +1,16 @@
+.map {
+  height: 100%;
+
+  .status {
+    width: 50%;
+
+    position: absolute;
+    left: 25%;
+    z-index: $map_status_z_index;
+
+    background-color: white;
+
+    font-size: .75em;
+    text-align: center;
+  }
+}

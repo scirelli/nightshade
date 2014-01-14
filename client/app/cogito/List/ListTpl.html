@@ -6,6 +6,14 @@
     </tr>
   </thead>
   <tbody>
+    <tr ng-show="list.fetchedData && list.items.length == 0">
+      <td>There are no results in your area</td>
+    </tr>
+
+    <tr ng-hide="list.fetchedData">
+      <td>{{debug.status}}</td>
+    </tr>
+
     <tr ng-repeat="item in list.items">
       <td><a href="{{item.url}}" target="_blank">{{item.name}}</a></td>
       <td>{{item.description}} <a href="{{item.actionUrl}}" target="_blank">Buy</a></td>

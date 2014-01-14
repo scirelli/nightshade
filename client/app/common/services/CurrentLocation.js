@@ -16,7 +16,7 @@ angular.module('common.services.currentlocation', [])
       message: ''
     };
 
-    var FAKE_LOCATION = true;
+    var FAKE_LOCATION = false;
 
     var _fake_location = {
       lat: 38.92102219786375,
