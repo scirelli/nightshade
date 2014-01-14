@@ -15,6 +15,7 @@ The beginning of our planner app.
 - [jQuery 1.10.2](jquery.com)
 
 - [Bootstrap 3](http://getbootstrap.com/)
+- [Q](https://github.com/kriskowal/q)
 
 ### Node Dependencies ######
 
