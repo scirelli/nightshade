@@ -14,7 +14,7 @@ module.exports = function(Yelp, Meetup) {
 
     Yelp.search(params, function(err, data) {
       if(err) {
-        res.send(500, err);
+        res.send(500, data);
         return
       }
 

@@ -85,11 +85,18 @@ module.exports = function(OAuth, Geocoder, YelpConfig) {
 
       var yelpItems = yelp.businesses;
 
-      console.log('yelp data returned', yelpItems);
+      console.log('yelp data returned', err, data, yelpItems);
+
+      if(!yelpItems) {
+        callback(true, [err, data]);
+        return;
+      }
 
       if(yelpItems.length == 0) {
         callback(false, []);
+        return;
       }
+
       yelpItems.forEach(function(yelpItem, index) {
 
           var task = (function(item) {

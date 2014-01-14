@@ -8,6 +8,13 @@ angular.module('cg-list', [
 
     function _fetchAroundMe(params) {
       AroundMe.query(params, function(data, status, headers) {
+
+        if(status != 200) {
+          console.log(data, status, headers);
+          $scope.debug.status = AroundMe.MESSAGES.ERROR;
+          return;
+        }
+
         var items = data;
         $scope.list.items = items;
         $scope.debug.status = data.message;

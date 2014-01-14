@@ -16,6 +16,13 @@ angular.module('common.services.currentlocation', [])
       message: ''
     };
 
+    var FAKE_LOCATION = true;
+
+    var _fake_location = {
+      lat: 38.92102219786375,
+      lon: -77.03115463256836
+    };
+
     var CurrentLocation = {};
 
     function _geolocator() {
@@ -62,11 +69,20 @@ angular.module('common.services.currentlocation', [])
       }
     }
 
+    function _doCallback(callback, location) {
+      if(FAKE_LOCATION) {
+        location.lat = _fake_location.lat;
+        location.lon = _fake_location.lon;
+      }
+      console.log('using location: ', location);
+      callback(_location);
+    }
+
     function _get(callback) {
       if(_location.lat && _location.lon) {
         _cachedGeolocation();
         $timeout(function() {
-          callback(_location);
+          _doCallback(callback, _location);
         }, 100);
         return;
       }
@@ -74,17 +90,17 @@ angular.module('common.services.currentlocation', [])
       var locator = _geolocator();
 
       if(!locator) {
-        callback(_location);
+        doCallback(_location);
       }
 
       locator.getCurrentPosition(function(position) {
         _successfulGeolocation(position);
         $timeout(function() {
-          callback(_location);
+          _doCallback(callback, _location);
         }, 100);
       }, function(error) {
         _failedGeolocation(error);
-        callback(_location);
+        doCallback(callback, _location);
       });
       return;
     }

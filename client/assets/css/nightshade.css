@@ -63,6 +63,19 @@ div {
     .ns .row.body {
       top: 109px;
       bottom: 200px; }
+      .ns .row.body .list .table {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        border-spacing: 0; }
+        .ns .row.body .list .table thead > tr > th, .ns .row.body .list .table thead > tr > td, .ns .row.body .list .table tbody > tr > th, .ns .row.body .list .table tbody > tr > td, .ns .row.body .list .table tfoot > tr > th, .ns .row.body .list .table tfoot > tr > td {
+          padding: 8px;
+          line-height: 1.42857;
+          vertical-align: top;
+          border-top: 1px solid #dddddd; }
+        .ns .row.body .list .table thead > tr > th {
+          vertical-align: bottom;
+          border-bottom: 2px solid #dddddd; }
     .ns .row.footer {
       bottom: 0;
       height: 200px;
@@ -72,7 +85,7 @@ div {
         width: 20%;
         height: 100%;
         float: left;
-        font-size: 2em; }
+        font-size: 1.5em; }
   .ns .col {
     top: 0;
     bottom: 0; }

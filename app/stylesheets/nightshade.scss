@@ -55,6 +55,8 @@ $font_color: #fff;
       top: $header_height;
       bottom: $categories_height;
 
+
+      @import "body/list/list";
     }
 
     &.footer {
