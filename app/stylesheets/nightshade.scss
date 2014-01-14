@@ -63,6 +63,8 @@ $font_color: #fff;
 
       background-color: $footer_background_color;
       color: $font_color;
+
+      @import "footer/categories";
     }
   }
 

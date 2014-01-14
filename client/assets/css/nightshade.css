@@ -17,7 +17,7 @@ div {
   clear: both;
   visibility: hidden; }
 
-.center-box-align, .ns .row.header, .ns .row.header .options-tray-control {
+.center-box-align, .ns .row.header, .ns .row.header .options-tray-control, .ns .row.footer .category {
   /* IE 10 */
   display: -ms-flexbox;
   -ms-flex-pack: center;
@@ -68,6 +68,11 @@ div {
       height: 200px;
       background-color: #000;
       color: #fff; }
+      .ns .row.footer .category {
+        width: 20%;
+        height: 100%;
+        float: left;
+        font-size: 2em; }
   .ns .col {
     top: 0;
     bottom: 0; }
