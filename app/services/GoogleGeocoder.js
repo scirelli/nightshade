@@ -20,23 +20,25 @@ module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) 
 
     function _latLon(results) {
         var first;
-        if(results.length > 0) {
-            first = results[0];
-            try{
-                return {
-                    lat: first.geometry.location.lat,
-                    lon: first.geometry.location.lng
-                };
-            }
-            catch(e) {
-                console.log('could not get geometry data from first item', first);
-                return false;
-            }
+        if(results.length === 0) {
+            console.log('GoogleGeocoder: empty results', results);
+            return {
+                lat: null,
+                lon: null
+            };
         }
-        else {
-            console.log('something else went wrong', results);
+
+        first = results[0];
+        try{
+            return {
+                lat: first.geometry.location.lat,
+                lon: first.geometry.location.lng
+            };
+        }
+        catch(e) {
+            console.log('could not get geometry data from first item', first);
             return false;
-        } 
+        }
     }
 
     /**
@@ -73,7 +75,7 @@ module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) 
 
 
     return {
-        query: function(address) {
+        query: function(address, business, key) {
             var defer = Q.defer();
 
             if(!address || typeof address !== 'string') {
@@ -101,9 +103,11 @@ module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) 
                         };    
                     }
 
+                    console.log('GoogleGeocoder: extracting lat::lon', geoData, address);
                     geoData = _latLon(geoData.results);
                     if(geoData) {
-                        defer.resolve(geoData);
+                        business[key] = geoData;
+                        defer.resolve(business);
                     }
                     else {
                         defer.reject(new Error(STATUS.ERROR_EXTRACTING_LAT_LON))

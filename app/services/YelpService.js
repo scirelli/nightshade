@@ -19,8 +19,7 @@ module.exports = YelpService = function(OAuth, Geocoder, Q, YelpConfig) {
      */ 
     var _default_params = {
         category_filter: 'arts,active,food,yelpevents,nightlife',
-        deals_filter: true,
-        limit: 5
+        deals_filter: true
     };
 
     /**
@@ -86,10 +85,6 @@ module.exports = YelpService = function(OAuth, Geocoder, Q, YelpConfig) {
         }
     }
 
-    function _spreadCallback(promises) {
-
-    }
-
     return {
         /**
          * search
@@ -152,7 +147,7 @@ module.exports = YelpService = function(OAuth, Geocoder, Q, YelpConfig) {
                 businesses.forEach(function(business, index) {
                     var address = _address(business);
                     if(address) {
-                        promises.push(Geocoder.query(address));
+                        promises.push(Geocoder.query(address, business, "_location"));
                     }
                     else {
                         console.log('YelpService: ', 'failed to parse address', address);
@@ -163,7 +158,7 @@ module.exports = YelpService = function(OAuth, Geocoder, Q, YelpConfig) {
                     Q.all(promises).then(function(data) {
                         _success(data, defer);
                     }, function(error) {
-                        _success(error, defer);
+                        _error(error, defer);
                     }, function(notification) {
                         _notification(notification);
                     });
