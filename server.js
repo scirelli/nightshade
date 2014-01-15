@@ -12,6 +12,7 @@ var express     = require('express'),
     db          = null,
     sass        = require('node-sass'),    
     Session     = require('connect').session,
+    q           = require('q'),
     sessionStore = new MemoryStore();
 
 Object.extend(global, proto); 
