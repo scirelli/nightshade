@@ -1,30 +1,42 @@
-module.exports = function(Yelp, Meetup) {
-    'use strict';
-  function fetch(req, res) {
-    var params = {
-      lat: req.params.lat || req.body.lat,
-      lon: req.params.lon || req.body.lon
-    };
+module.exports = YelpRoutes = function(YelpService) {
 
-    if(!params.lat || !params.lon) {
-      console.log('yelp fetch requires lat and lon parameters');
-      res.send(500, 'yelp fetch requires lat and lon parameters');
-      return;
+    function _success(data, res) {
+        res.send(200, data);
     }
 
-    Yelp.search(params, function(err, data) {
-      if(err) {
-        res.send(500, data);
-        return
-      }
+    function _error(error, res) {
+        console.log(error);
 
-      console.log('succesful yelp fetch', data);
-      res.send(200, data);
-      return;
-    });
-  }
+        res.send(500, error);
+    }
 
-  return {
-    fetch: fetch
-  };
+    function _notification(notification) {
+        console.log(notification);
+    }
+
+    return {
+        fetch: function(req, res) {
+            console.log('Yelp: fetching');
+            var lat = req.params.lat || req.body.lat,
+                lon = req.params.lon || req.body.lon;
+
+            if(!lat || !lon) {
+                res.send(500, 'Yelp Routes: lat and lon are required');
+                return;
+            }
+
+            var promise = YelpService.search(lat, lon);
+
+            console.log(promise);
+
+            promise
+                .then(function(data) {
+                    _success(data, res);
+                }, function(error) {
+                    _error(error, res);
+                }, function(notification) {
+                    _notification(notification);
+                });    
+        }
+    };
 }
