@@ -21,6 +21,8 @@ angular.module("common.directives.googlemap", [])
       point.actionUrl = config.actionUrl;
       point.url = config.url;
       point.description = config.description;
+      point.optimized = false;
+      point.zIndex = google.maps.Marker.MAX_ZINDEX;
 
       marker = new google.maps.Marker(point);
       marker.lat = marker.getPosition().lat();
@@ -39,6 +41,8 @@ angular.module("common.directives.googlemap", [])
 
         center.position = latLng;
         center.map = _map;
+        center.zIndex = 1;
+        center.optimized = false;
         center.icon = {
           path: google.maps.SymbolPath.CIRCLE,
           scale: 9,
