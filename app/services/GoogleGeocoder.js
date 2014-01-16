@@ -102,7 +102,7 @@ module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) 
                         };    
                     }
 
-                    // console.log('GoogleGeocoder: extracting lat::lon', geoData, address);
+                    console.log('GoogleGeocoder: extracting lat::lon', geoData, address);
                     geoData = _latLon(geoData.results);
                     if(geoData) {
                         business[key] = geoData;

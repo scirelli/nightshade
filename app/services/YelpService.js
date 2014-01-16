@@ -30,7 +30,7 @@ module.exports = YelpService = function(OAuth, Geocoder, Q, YelpConfig) {
      * @return null
      */
     function _success(data, defer) {
-        console.log('YelpService: ', 'success', data);
+        console.log('YelpService: ', 'success', new Date());
         defer.resolve(data);
     }
 
