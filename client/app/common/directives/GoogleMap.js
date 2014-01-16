@@ -32,8 +32,24 @@ angular.module("common.directives.googlemap", [])
 
     function _setCenter(lat, lon) {
       $timeout(function() {
-        var latLng = new google.maps.LatLng(lat, lon);
+        var latLng = new google.maps.LatLng(lat, lon),
+            center = {};
+
         _map.setCenter(latLng);
+
+        center.position = latLng;
+        center.map = _map;
+        center.icon = {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 9,
+          fillColor: '#0489B1',
+          fillOpacity: .7,
+          strokeColor: '#0489B1',
+          strokeOpacity: .9,
+          strokeWeight: 1
+        };
+
+        center = new google.maps.Marker(center);
       });
     }
 
