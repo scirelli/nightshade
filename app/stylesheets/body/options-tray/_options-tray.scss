@@ -16,6 +16,26 @@
     padding: $tray_padding;
     padding-top: $tray_padding_top;
 
+    /**
+     * iPhone 5 landscape
+     */
+    @media only screen 
+    and (min-device-width: 320px)
+    and (max-device-width: 568px)
+    and (orientation: landscape) {
+      width: $mobile_landscape_options_tray_width;
+    }
+
+    /**
+     * iPhone 5 portrait
+     */
+    @media only screen 
+    and (min-device-width: 320px)
+    and (max-device-width: 568px)
+    and (orientation: portrait) {
+      width: $mobile_portrait_options_tray_width;
+    }
+
     * {
       display: block;
     }

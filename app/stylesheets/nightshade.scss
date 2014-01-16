@@ -8,27 +8,61 @@
 
 $APP_NAMESPACE: "ns";
 
-$header_height: 109px;
-$categories_height: 200px;
+$mobile_portrait_header_height: 109px;
+$mobile_landscape_header_height: 59px;
+$mobile_portrait_categories_height: 200px;
+$mobile_landscape_categories_height: 100px;
 
-$options_tray_width: 75%;
+$options_tray_width: 35%;
+$mobile_portrait_options_tray_width: 75%;
+$mobile_landscape_options_tray_width: 40%;
 $options_tray_z_index: 10;
 
 $map_status_z_index: 5;
 
+/**
+ * Colors
+ */
 $header_background_color: #000;
 $tray_background_color: #333333;
 $footer_background_color: #000;
 
-$mobile_font_size: 3em;
+/**
+ * Base Font Size
+ */
+$default_font_size: 0.5em;
+$mobile_landscape_font-size: 1em;
+$mobile_portrait_font_size: 2em;
 $font_color: #fff;
+
 
 @import "includes/reset";
 @import "includes/common";
 
 .ns {
 
-  font-size: $mobile_font_size;
+  font-size: $default_font_size;
+
+  /**
+   * iPhone 5 landscape
+   */
+  @media only screen 
+  and (min-device-width: 320px)
+  and (max-device-width: 568px)
+  and (orientation: landscape) {
+    font-size: $mobile_landscape_font-size;
+  }
+
+  /**
+   * iPhone 5 portrait
+   */
+  @media only screen 
+  and (min-device-width: 320px)
+  and (max-device-width: 568px)
+  and (orientation: portrait) {
+    font-size: $mobile_portrait_font_size;
+  }
+
 
   .row, .col {
     position: absolute;
@@ -45,19 +79,60 @@ $font_color: #fff;
       @extend .center-box-align;
 
       top: 0;
-      height: $header_height;
+      height: $mobile_portrait_header_height;
 
       background-color: $header_background_color;
       color: $font_color;
+
+      /**
+       * iPhone 5 landscape
+       */
+      @media only screen 
+      and (min-device-width: 320px)
+      and (max-device-width: 568px)
+      and (orientation: landscape) {
+        height: $mobile_landscape_header_height;
+      }
+
+      /**
+       * iPhone 5 portrait
+       */
+      @media only screen 
+      and (min-device-width: 320px)
+      and (max-device-width: 568px)
+      and (orientation: portrait) {
+        height: $mobile_portrait_header_height;
+      }
 
       @import "header/logo";
       @import "header/options-tray-control";
     }
 
     &.body {
-      top: $header_height;
-      bottom: $categories_height;
+      top: $mobile_portrait_header_height;
+      bottom: $mobile_portrait_categories_height;
 
+      /**
+       * iPhone 5 landscape
+       */
+      @media only screen 
+      and (min-device-width: 320px)
+      and (max-device-width: 568px)
+      and (orientation: landscape) {
+        top: $mobile_landscape_header_height;
+        bottom: $mobile_landscape_categories_height;
+      }
+
+      /**
+       * iPhone 5 portrait
+       */
+      @media only screen 
+      and (min-device-width: 320px)
+      and (max-device-width: 568px)
+      and (orientation: portrait) {
+        top: $mobile_portrait_header_height;
+        bottom: $mobile_portrait_categories_height;
+      }
 
       @import "body/map/map";
       @import "body/list/list";
@@ -65,10 +140,30 @@ $font_color: #fff;
 
     &.footer {
       bottom: 0;
-      height: $categories_height;
+      height: $mobile_portrait_categories_height;
 
       background-color: $footer_background_color;
       color: $font_color;
+
+      /**
+       * iPhone 5 landscape
+       */
+      @media only screen 
+      and (min-device-width: 320px)
+      and (max-device-width: 568px)
+      and (orientation: landscape) {
+        height: $mobile_landscape_categories_height;
+      }
+
+      /**
+       * iPhone 5 portrait
+       */
+      @media only screen 
+      and (min-device-width: 320px)
+      and (max-device-width: 568px)
+      and (orientation: portrait) {
+        height: $mobile_portrait_categories_height;
+      }
 
       @import "footer/categories";
     }

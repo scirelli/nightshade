@@ -4,6 +4,12 @@
 /**
  * NightShade app structures
  */
+/**
+ * Colors
+ */
+/**
+ * Base Font Size
+ */
 html, body {
   margin: 0; }
 
@@ -36,7 +42,19 @@ div {
   box-align: center; }
 
 .ns {
-  font-size: 3em; }
+  font-size: 0.5em;
+  /**
+   * iPhone 5 landscape
+   */
+  /**
+   * iPhone 5 portrait
+   */ }
+  @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+    .ns {
+      font-size: 1em; } }
+  @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+    .ns {
+      font-size: 2em; } }
   .ns .row, .ns .col {
     position: absolute;
     overflow: hidden; }
@@ -48,7 +66,19 @@ div {
       top: 0;
       height: 109px;
       background-color: #000;
-      color: #fff; }
+      color: #fff;
+      /**
+       * iPhone 5 landscape
+       */
+      /**
+       * iPhone 5 portrait
+       */ }
+      @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+        .ns .row.header {
+          height: 59px; } }
+      @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+        .ns .row.header {
+          height: 109px; } }
       .ns .row.header .logo h1 {
         margin: 0; }
       .ns .row.header .options-tray-control {
@@ -62,7 +92,21 @@ div {
           text-decoration: none; }
     .ns .row.body {
       top: 109px;
-      bottom: 200px; }
+      bottom: 200px;
+      /**
+       * iPhone 5 landscape
+       */
+      /**
+       * iPhone 5 portrait
+       */ }
+      @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+        .ns .row.body {
+          top: 59px;
+          bottom: 100px; } }
+      @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+        .ns .row.body {
+          top: 109px;
+          bottom: 200px; } }
       .ns .row.body .map {
         height: 100%; }
         .ns .row.body .map .status {
@@ -90,7 +134,19 @@ div {
       bottom: 0;
       height: 200px;
       background-color: #000;
-      color: #fff; }
+      color: #fff;
+      /**
+       * iPhone 5 landscape
+       */
+      /**
+       * iPhone 5 portrait
+       */ }
+      @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+        .ns .row.footer {
+          height: 100px; } }
+      @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+        .ns .row.footer {
+          height: 200px; } }
       .ns .row.footer .category {
         width: 20%;
         height: 100%;
@@ -126,9 +182,21 @@ div {
           .ns .col.options-tray .view-options .option .option-text {
             display: none; }
         .ns .col.options-tray.active {
-          width: 75%;
+          width: 35%;
           padding: 20px;
-          padding-top: 40px; }
+          padding-top: 40px;
+          /**
+     * iPhone 5 landscape
+     */
+          /**
+     * iPhone 5 portrait
+     */ }
+          @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+            .ns .col.options-tray.active {
+              width: 40%; } }
+          @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+            .ns .col.options-tray.active {
+              width: 75%; } }
           .ns .col.options-tray.active * {
             display: block; }
   .ns .scroll-x {
