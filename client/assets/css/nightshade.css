@@ -23,7 +23,7 @@ div {
   clear: both;
   visibility: hidden; }
 
-.center-box-align, .ns .row.header, .ns .row.header .options-tray-control, .ns .row.footer .category {
+.center-box-align, .ns .row.header, .ns .row.header .options-tray-control, .ns .row.footer .categories .category {
   /* IE 10 */
   display: -ms-flexbox;
   -ms-flex-pack: center;
@@ -39,22 +39,24 @@ div {
   /* W3C */
   display: box;
   box-pack: center;
-  box-align: center; }
+  box-align: center;
+  text-align: center; }
 
+/**
+ * respond_to
+ * responsive mixin to return a media query 
+ * based on the device type that was provided
+ * @param $device_type - iphone, mobile, ipad, tablet
+ * @param $orientation - landscape, portrait | default is landscape
+ */
 .ns {
-  font-size: 0.5em;
-  /**
-   * iPhone 5 landscape
-   */
-  /**
-   * iPhone 5 portrait
-   */ }
+  font-size: 1em; }
   @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
     .ns {
-      font-size: 1em; } }
+      font-size: 1.5em; } }
   @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
     .ns {
-      font-size: 2em; } }
+      font-size: 2.5em; } }
   .ns .row, .ns .col {
     position: absolute;
     overflow: hidden; }
@@ -64,15 +66,9 @@ div {
     margin-left: 0; }
     .ns .row.header {
       top: 0;
-      height: 109px;
+      height: 39px;
       background-color: #000;
-      color: #fff;
-      /**
-       * iPhone 5 landscape
-       */
-      /**
-       * iPhone 5 portrait
-       */ }
+      color: #fff; }
       @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
         .ns .row.header {
           height: 59px; } }
@@ -91,14 +87,8 @@ div {
           color: #fff;
           text-decoration: none; }
     .ns .row.body {
-      top: 109px;
-      bottom: 200px;
-      /**
-       * iPhone 5 landscape
-       */
-      /**
-       * iPhone 5 portrait
-       */ }
+      top: 39px;
+      bottom: 80px; }
       @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
         .ns .row.body {
           top: 59px;
@@ -132,26 +122,35 @@ div {
           border-bottom: 2px solid #dddddd; }
     .ns .row.footer {
       bottom: 0;
-      height: 200px;
+      height: 80px;
       background-color: #000;
-      color: #fff;
-      /**
-       * iPhone 5 landscape
-       */
-      /**
-       * iPhone 5 portrait
-       */ }
+      color: #fff; }
       @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
         .ns .row.footer {
           height: 100px; } }
       @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
         .ns .row.footer {
           height: 200px; } }
-      .ns .row.footer .category {
-        width: 20%;
+      .ns .row.footer .categories {
+        width: 50%;
         height: 100%;
-        float: left;
-        font-size: 1.5em; }
+        position: absolute;
+        left: 25%; }
+        @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
+          .ns .row.footer .categories {
+            width: 100%;
+            position: inherit;
+            left: inherit; } }
+        @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: portrait) {
+          .ns .row.footer .categories {
+            width: 100%;
+            position: inherit;
+            left: inherit; } }
+        .ns .row.footer .categories .category {
+          width: 20%;
+          height: 100%;
+          float: left;
+          font-size: 1.5em; }
   .ns .col {
     top: 0;
     bottom: 0; }
@@ -184,13 +183,7 @@ div {
         .ns .col.options-tray.active {
           width: 35%;
           padding: 20px;
-          padding-top: 40px;
-          /**
-     * iPhone 5 landscape
-     */
-          /**
-     * iPhone 5 portrait
-     */ }
+          padding-top: 40px; }
           @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation: landscape) {
             .ns .col.options-tray.active {
               width: 40%; } }

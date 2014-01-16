@@ -8,8 +8,11 @@
 
 $APP_NAMESPACE: "ns";
 
+$header_height: 39px;
 $mobile_portrait_header_height: 109px;
 $mobile_landscape_header_height: 59px;
+
+$categories_height: 80px;
 $mobile_portrait_categories_height: 200px;
 $mobile_landscape_categories_height: 100px;
 
@@ -30,9 +33,10 @@ $footer_background_color: #000;
 /**
  * Base Font Size
  */
-$default_font_size: 0.5em;
-$mobile_landscape_font-size: 1em;
-$mobile_portrait_font_size: 2em;
+$default_font_size: 1em;
+$mobile_landscape_font_size: 1.5em;
+$mobile_portrait_font_size: 2.5em;
+
 $font_color: #fff;
 
 
@@ -43,26 +47,13 @@ $font_color: #fff;
 
   font-size: $default_font_size;
 
-  /**
-   * iPhone 5 landscape
-   */
-  @media only screen 
-  and (min-device-width: 320px)
-  and (max-device-width: 568px)
-  and (orientation: landscape) {
-    font-size: $mobile_landscape_font-size;
+  @include respond_to(iphone, landscape) {
+    font-size: $mobile_landscape_font_size;
   }
 
-  /**
-   * iPhone 5 portrait
-   */
-  @media only screen 
-  and (min-device-width: 320px)
-  and (max-device-width: 568px)
-  and (orientation: portrait) {
+  @include respond_to(iphone, portrait) {
     font-size: $mobile_portrait_font_size;
   }
-
 
   .row, .col {
     position: absolute;
@@ -79,28 +70,16 @@ $font_color: #fff;
       @extend .center-box-align;
 
       top: 0;
-      height: $mobile_portrait_header_height;
+      height: $header_height;
 
       background-color: $header_background_color;
       color: $font_color;
 
-      /**
-       * iPhone 5 landscape
-       */
-      @media only screen 
-      and (min-device-width: 320px)
-      and (max-device-width: 568px)
-      and (orientation: landscape) {
+      @include respond_to(iphone, landscape) {
         height: $mobile_landscape_header_height;
       }
 
-      /**
-       * iPhone 5 portrait
-       */
-      @media only screen 
-      and (min-device-width: 320px)
-      and (max-device-width: 568px)
-      and (orientation: portrait) {
+      @include respond_to(iphone, portrait) {
         height: $mobile_portrait_header_height;
       }
 
@@ -109,27 +88,15 @@ $font_color: #fff;
     }
 
     &.body {
-      top: $mobile_portrait_header_height;
-      bottom: $mobile_portrait_categories_height;
+      top: $header_height;
+      bottom: $categories_height;
 
-      /**
-       * iPhone 5 landscape
-       */
-      @media only screen 
-      and (min-device-width: 320px)
-      and (max-device-width: 568px)
-      and (orientation: landscape) {
+      @include respond_to(iphone, landscape) {
         top: $mobile_landscape_header_height;
         bottom: $mobile_landscape_categories_height;
       }
 
-      /**
-       * iPhone 5 portrait
-       */
-      @media only screen 
-      and (min-device-width: 320px)
-      and (max-device-width: 568px)
-      and (orientation: portrait) {
+      @include respond_to(iphone, portrait) {
         top: $mobile_portrait_header_height;
         bottom: $mobile_portrait_categories_height;
       }
@@ -140,28 +107,16 @@ $font_color: #fff;
 
     &.footer {
       bottom: 0;
-      height: $mobile_portrait_categories_height;
+      height: $categories_height;
 
       background-color: $footer_background_color;
       color: $font_color;
 
-      /**
-       * iPhone 5 landscape
-       */
-      @media only screen 
-      and (min-device-width: 320px)
-      and (max-device-width: 568px)
-      and (orientation: landscape) {
+      @include respond_to(iphone, landscape) {
         height: $mobile_landscape_categories_height;
       }
 
-      /**
-       * iPhone 5 portrait
-       */
-      @media only screen 
-      and (min-device-width: 320px)
-      and (max-device-width: 568px)
-      and (orientation: portrait) {
+      @include respond_to(iphone, portrait) {
         height: $mobile_portrait_categories_height;
       }
 

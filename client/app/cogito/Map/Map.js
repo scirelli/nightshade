@@ -36,7 +36,7 @@ angular.module('cg-map', [
       Communicator.send(Communicator.MAP_SET_CENTER_CHANNEL, location);
       $scope.map.message = location.message;
 
-      // _fetchAroundMe(location);
+      _fetchAroundMe(location);
     });
 
   });

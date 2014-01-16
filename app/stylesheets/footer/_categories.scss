@@ -1,8 +1,30 @@
-.category {
-  @extend .center-box-align;
+.categories {
 
-   width: 20%;
-   height: 100%;
-   float: left;
-   font-size: 1.5em;
+  width: 50%;
+  height: 100%;
+
+  position: absolute;
+  left: 25%;
+
+  @include respond_to(iphone, landscape) {
+    width: 100%;
+    position: inherit;
+    left: inherit;
+  }
+
+  @include respond_to(iphone, portrait) {
+    width: 100%;
+    position: inherit;
+    left: inherit;
+  }
+
+  .category {
+    @extend .center-box-align;
+
+     width: 20%;
+     height: 100%;
+     float: left;
+     font-size: 1.5em;
+  }
 }
+

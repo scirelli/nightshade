@@ -39,7 +39,7 @@ block content
       //-     span(class="icon-menu")
 
     div(class="row body")
-      div(class="col main")
+      div(class="col main scroll-y")
         div(ng-view, style="height:100%;")
 
       div(optionstray, class="col options-tray", ng-class="{ 'active': optionsTray.active }")
@@ -58,17 +58,18 @@ block content
 
     div(class="row footer")
 
-      div(class="category")
-        span(class="icon-music")
+      div(class="categories clearfix")
+        div(class="category")
+          p(class="icon-music")
 
-      div(class="category")
-        span(class="icon-accessibility")
+        div(class="category")
+          p(class="icon-accessibility")
 
-      div(class="category")
-        span(class="icon-food")
+        div(class="category")
+          p(class="icon-food")
 
-      div(class="category")
-        span(class="icon-users")
+        div(class="category")
+          p(class="icon-users")
 
-      div(class="category")
-        span(class="icon-globe")
+        div(class="category")
+          p(class="icon-globe")
