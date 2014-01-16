@@ -23,7 +23,6 @@ The beginning of our planner app.
 
 ### Launch ######
 
-    # in server/
     node server.js
 
 ### Heroku ######
