@@ -4,6 +4,9 @@
 
   @include transition(0.2s);
 
+  width: 0;
+  max-width: $options_tray_max_width;
+
   background-color: $tray_background_color;
   color: $font_color;
 
@@ -21,6 +24,14 @@
     }
 
     @include respond_to(iphone, portrait) {
+      width: $mobile_portrait_options_tray_width;
+    }
+
+    @include respond_to(mobile, landscape) {
+      width: $mobile_landscape_options_tray_width;
+    }
+
+    @include respond_to(mobile, portrait) {
       width: $mobile_portrait_options_tray_width;
     }
 

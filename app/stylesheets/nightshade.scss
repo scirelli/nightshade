@@ -16,7 +16,10 @@ $categories_height: 80px;
 $mobile_portrait_categories_height: 200px;
 $mobile_landscape_categories_height: 100px;
 
-$options_tray_width: 35%;
+$options_tray_width: 250px;
+$options_tray_min_width: 150px;
+$options_tray_max_width: 250px;
+$mini_options_tray_width: 35%;
 $mobile_portrait_options_tray_width: 75%;
 $mobile_landscape_options_tray_width: 40%;
 $options_tray_z_index: 10;
@@ -83,6 +86,14 @@ $font_color: #fff;
         height: $mobile_portrait_header_height;
       }
 
+      @include respond_to(mobile, landscape) {
+        height: $mobile_landscape_header_height;
+      }
+
+      @include respond_to(mobile, portrait) {
+        height: $mobile_portrait_header_height;
+      }
+
       @import "header/logo";
       @import "header/options-tray-control";
     }
@@ -97,6 +108,16 @@ $font_color: #fff;
       }
 
       @include respond_to(iphone, portrait) {
+        top: $mobile_portrait_header_height;
+        bottom: $mobile_portrait_categories_height;
+      }
+
+      @include respond_to(mobile, landscape) {
+        top: $mobile_landscape_header_height;
+        bottom: $mobile_landscape_categories_height;
+      }
+
+      @include respond_to(mobile, portrait) {
         top: $mobile_portrait_header_height;
         bottom: $mobile_portrait_categories_height;
       }
@@ -117,6 +138,14 @@ $font_color: #fff;
       }
 
       @include respond_to(iphone, portrait) {
+        height: $mobile_portrait_categories_height;
+      }
+
+      @include respond_to(mobile, landscape) {
+        height: $mobile_landscape_categories_height;
+      }
+
+      @include respond_to(mobile, portrait) {
         height: $mobile_portrait_categories_height;
       }
 

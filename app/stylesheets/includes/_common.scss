@@ -35,11 +35,13 @@ $iphone5_max_width: 568px;
 $mobile_min_width: 320px;
 $mobile_max_width: 480px;
 
+$
+
 /**
  * respond_to
  * responsive mixin to return a media query 
  * based on the device type that was provided
- * @param $device_type - iphone, mobile, ipad, tablet
+ * @param $device_type - iphone, mobile, desktop
  * @param $orientation - landscape, portrait | default is landscape
  */
 @mixin respond_to($device_type, $landscape:"") {
@@ -59,9 +61,17 @@ $mobile_max_width: 480px;
     }
 
     @if $device_type == mobile {
+
+        @if $landscape == "" {
+            @media only screen
+                and (min-device-width: $mobile_min_width)
+                and (max-device-width: $mobile_max_width) { @content }
+        }
+
         @media only screen
             and (min-device-width: $mobile_min_width)
-            and (max-device-width: $mobile_max_width) { @content }
+            and (max-device-width: $mobile_max_width)
+            and (orientation: $landscape) { @content }
     }
 
     @if $device_type == desktop {
