@@ -1,6 +1,7 @@
-  
-module.exports = YelpService = function(OAuth, Geocoder, Q, YelpConfig) {
 
+module.exports = YelpService = function(OAuth, Q, YelpConfig) {
+
+    var translator = require('./YelpTranslator.js');
     /**
      * @var STATUS 
      * Status Messages
@@ -54,42 +55,14 @@ module.exports = YelpService = function(OAuth, Geocoder, Q, YelpConfig) {
         console.log('YelpService: ', notification);
     }
 
-    /**
-     * _address
-     * parse business object to obtain the address. return false if error.
-     * @param business {Object}
-     * {
-     *      location: {
-     *          address: {{String}},
-     *          city: {{String}},
-     *          state_code: {{String}}
-     *      }
-     * }
-     * @return {String}/{Boolean}
-     */
-    function _address(business) {
-        var address = '';
-        if(business.location) {
-            if(business.location && business.location.address && business.location.address.length > 0) {
-                address += business.location.address[0];
-            }
-
-            if(business.location.city && business.location.state_code) {
-                address += ' ' + business.location.city + ' ' + business.location.state_code; 
-            }
-
-            return address;
-        }
-        else {
-            return false;
-        }
-    }
+    
 
     return {
         /**
          * search
          * use the Yelp search API
-         * @param params {Object}
+         * @param lat {Number:float}
+         * @param lon {Number:float}
          * @return {Object}/{Promise}
          */
         search: function(lat, lon) {
@@ -130,46 +103,14 @@ module.exports = YelpService = function(OAuth, Geocoder, Q, YelpConfig) {
                     }
                 }
 
-                businesses = data.businesses;
-
-                if(businesses === undefined || businesses === null) {
-                    console.log(STATUS.INCORRECT_BUSINESS_KEY);
-                    defer.reject(new Error(STATUS.INCORRECT_BUSINESS_KEY));
-                    return defer.promise;
-                }
-
-                if(businesses.length === 0) {
-                    console.log('YelpService: ', 'Zero results returned');
-                    defer.resolve([]);
-                    return defer.promise;
-                }
-
-                businesses.forEach(function(business, index) {
-                    var address = _address(business);
-                    if(address) {
-                        promises.push(Geocoder.query(address, business, "_location"));
-                    }
-                    else {
-                        console.log('YelpService: ', 'failed to parse address', address);
-                    }
-                });
-
-                if(promises.length > 0) {
-                    Q.all(promises).then(function(data) {
-                        _success(data, defer);
-                    }, function(error) {
-                        _error(error, defer);
-                    }, function(notification) {
-                        _notification(notification);
-                    });
-                }
-                else {
-                    defer.resolve([]);
-                }
+                translator.translate(data).then(function(translated_and_categorized) {
+                    _success(translated_and_categorized, defer);
+                }, function(error) {
+                    _error(error, defer);
+                }, _notification);
 
             });
 
-            console.log('YelpService: returning promise');
             return defer.promise;
         }
     }

@@ -20,15 +20,13 @@ angular.module('common.services.aroundme', [])
       items = items || [];
 
       items.forEach(function(item, index) {
-        deal = item.deals[0];
         try{
           translated.push({
-            name: item.name,
-            description: deal.title,
-            actionUrl: deal.options[0].purchase_url,
-            url: item.url,
-            lat: item._location.lat,
-            lon: item._location.lon
+            name: item.title,
+            description: item.description,
+            url: item.external_link,
+            lat: item.location.lat,
+            lon: item.location.lon
           });
         }
         catch(e) {

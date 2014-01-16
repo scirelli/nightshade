@@ -1,4 +1,17 @@
-module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) {
+module.exports = GoogleGeocoder = function() {
+
+    var http = require('http'),
+        querystring = require('querystring'),
+        Q = require('q'),
+        GeocodeConfig = require('../../config/config.global.js');
+
+
+    GeocodeConfig = GeocodeConfig.GOOGLE_GEOCODER;
+    if(!GeocodeConfig) {
+        console.log(GeocodeConfig);
+        throw 'GeocodeConfig did not load properly';
+        return;
+    }
 
     /**
      * @var STATUS 
@@ -41,38 +54,6 @@ module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) 
         }
     }
 
-    /**
-     * _success
-     * success callback when retrieved lat:lon data from 
-     * all yelp businesses
-     * @param data {Object}
-     * @return null
-     */
-    function _success(data) {
-        console.log('GoogleGeocoder: ', 'success', data);
-        defer.resolve(data);
-    }
-
-    /**
-     * _error
-     * error callback for geocoder queries
-     * @param error {Object}
-     * @return null
-     */
-    function _error(error) {
-        console.log('GoogleGeocoder: ', 'error', error);
-        defer.reject(new Error(STATUS.GEOCODER_ERROR));
-    }
-
-    /**
-     * _notification
-     * @param notification {Object}
-     * notification callback for geocoder queries
-     */
-    function _notification(notification) {
-        console.log('GoogleGeocoder: ', notification);
-    }
-
     return {
         query: function(address, business, key) {
             var defer = Q.defer();
@@ -84,6 +65,8 @@ module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) 
 
             var options = _default_params;
             options.path = GeocodeConfig.PATH + querystring.stringify({address: address}) + '&sensor=true';
+
+            console.log('GoogleGeocoder: ', options.hostname, options.path);
 
             var request = http.request(options, function(res) {
                 var geoData = '';
@@ -105,8 +88,7 @@ module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) 
                     console.log('GoogleGeocoder: extracting lat::lon', geoData, address);
                     geoData = _latLon(geoData.results);
                     if(geoData) {
-                        business[key] = geoData;
-                        defer.resolve(business);
+                        defer.resolve(geoData);
                     }
                     else {
                         defer.reject(new Error(STATUS.ERROR_EXTRACTING_LAT_LON))
@@ -116,7 +98,7 @@ module.exports = GoogleGeocoder = function(http, querystring, Q, GeocodeConfig) 
             });
 
           request.on('error', function(e) {
-            console.log(STATUS.GEOCODER_ERROR, e);
+            console.log(STATUS.GEOCODER_ERROR, e, address);
             defer.reject(new Error(STATUS.GEOCODER_ERROR));
           });
 

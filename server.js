@@ -21,7 +21,7 @@ Object.extend(global, proto);
 var INotications      = require(cfg.PATH.APP + '/services/interfaces/INotifications.js')(),
     OAuth             = require(cfg.PATH.APP + '/services/OAuth.js')(oauth, querystring),
     GoogleGeocoder    = require(cfg.PATH.APP + '/services/GoogleGeocoder')(http, querystring, Q, cfg.GOOGLE_GEOCODER),
-    YelpService       = require(cfg.PATH.APP + '/services/YelpService.js')(OAuth, GoogleGeocoder, Q, cfg.YELP),
+    YelpService       = require(cfg.PATH.APP + '/services/YelpService.js')(OAuth, Q, cfg.YELP),
     LocationNotifiers = require(cfg.PATH.APP + '/services/LocationNotifiers.js')(INotications),
     LocationNotifier  = new LocationNotifiers();
 
