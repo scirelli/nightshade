@@ -19,7 +19,6 @@ The beginning of our planner app.
 
 ### Node Dependencies ######
 
-    cd server
     npm install
 
 ### Launch ######
