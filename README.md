@@ -5,15 +5,10 @@ The beginning of our planner app.
 ### Application Stack ######
 
 - [Node.js](http://www.nodejs.org)
-
 - [Express](http://www.expressjs.com/)
-
 - [Jade](http://jade-lang.com/)
-
 - [Angular 1.1.1](http://angularjs.org/)
-
 - [jQuery 1.10.2](jquery.com)
-
 - [Bootstrap 3](http://getbootstrap.com/)
 - [Q](https://github.com/kriskowal/q)
 
