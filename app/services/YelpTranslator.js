@@ -274,7 +274,7 @@
             }
 
             // not an array
-            if(!data.length) {
+            if(typeof data.length !== 'number') {
                 error = new Error(MESSAGE.DATA_STRUCTURE_ERROR);
                 console.log(error);
                 defer.reject(error);
@@ -291,7 +291,7 @@
         // empty list
         if(data.length === 0) {
             console.log(MESSAGE.EMPTY_LIST);
-            defer.resolve(data);
+            defer.resolve(_categorized);
             return defer.promise;
         }
 
