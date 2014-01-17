@@ -17,7 +17,14 @@ angular.module('cg-map', [
         }
 
         var points = data;
-        $scope.map.points = points;
+        $scope.map.points = [];
+        for(var category in points) {
+          if(points.hasOwnProperty(category) && category !== 'message') {
+            points[category].forEach(function(item) {
+              $scope.map.points.push(item);
+            });
+          }
+        }
         $scope.map.fetchedData = true;
         $scope.debug.status = data.message;
       }); 

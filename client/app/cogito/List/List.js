@@ -18,7 +18,14 @@ angular.module('cg-list', [
         }
 
         var items = data;
-        $scope.list.items = items;
+        $scope.list.items = [];
+        for(var category in items) {
+          if(items.hasOwnProperty(category) && category !== 'message') {
+            items[category].forEach(function(item) {
+              $scope.list.items.push(item);
+            });
+          }
+        }
         $scope.list.fetchedData = true;
         $scope.debug.status = data.message;
       });

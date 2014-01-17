@@ -9,7 +9,7 @@ angular.module('common.services.aroundme', [])
       ERROR: 'Failed to retrieve data'
     };
 
-    var _aroundMe = false;
+    var _aroundMe = {};
     var _currentLocation = false;
 
     var AROUND_ME_REST_PATH = '/yelp';
@@ -40,7 +40,7 @@ angular.module('common.services.aroundme', [])
     AroundMe.query= function(currentLocation, callback) {
       currentLocation = currentLocation || {};
 
-      if(_aroundMe && _currentLocation && _currentLocation.lat === currentLocation.lat && _currentLocation.lon === currentLocation.lon) {
+      if(!$.isEmptyObject(_aroundMe) && _currentLocation && _currentLocation.lat === currentLocation.lat && _currentLocation.lon === currentLocation.lon) {
         callback(_aroundMe, 200);
         return;
       }
@@ -52,7 +52,12 @@ angular.module('common.services.aroundme', [])
       _currentLocation = currentLocation;
       $http.post(AROUND_ME_REST_PATH, currentLocation)
         .success(function(data, status, headers) {
-          _aroundMe = _translator(data);
+
+          for(var category in data) {
+            if(data.hasOwnProperty(category)) {
+              _aroundMe[category] = _translator(data[category]);
+            }
+          }
           _aroundMe.message = AroundMe.MESSAGES.SUCCESS;
           callback(_aroundMe, status, headers);
         })

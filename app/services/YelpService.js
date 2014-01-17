@@ -17,6 +17,7 @@ module.exports = YelpService = function(OAuth, Q, YelpConfig) {
     /**
      * @var _default_params
      * default params used in yelp search
+     * @TODO use an array.toString for category_filter
      */ 
     var _default_params = {
         category_filter: 'arts,active,food,yelpevents,nightlife',
@@ -54,8 +55,6 @@ module.exports = YelpService = function(OAuth, Q, YelpConfig) {
     function _notification(notification) {
         console.log('YelpService: ', notification);
     }
-
-    
 
     return {
         /**

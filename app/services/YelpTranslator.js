@@ -93,26 +93,26 @@
         zoos:                   "active",
 
         /* arts */
-        arts:                   "arts",
-        arcades:                "arts",
-        galleries:              "arts",
-        gardens:                "arts",
-        casinos:                "arts",
-        movietheaters:          "arts",
-        culturalcenter:         "arts",
-        festivals:              "arts",
-        jazzandblues:           "arts",
-        museums:                "arts",
-        musicvenues:            "arts",
-        opera:                  "arts",
-        theater:                "arts",
-        sportsteams:            "arts",
-        psychic_astrology:      "arts",
-        racetracks:             "arts",
-        social_clubs:           "arts",
-        stadiumsarenas:         "arts",
-        ticketsales:            "arts",
-        wineries:               "arts",
+        arts:                   "arts_ent",
+        arcades:                "arts_ent",
+        galleries:              "arts_ent",
+        gardens:                "arts_ent",
+        casinos:                "arts_ent",
+        movietheaters:          "arts_ent",
+        culturalcenter:         "arts_ent",
+        festivals:              "arts_ent",
+        jazzandblues:           "arts_ent",
+        museums:                "arts_ent",
+        musicvenues:            "arts_ent",
+        opera:                  "arts_ent",
+        theater:                "arts_ent",
+        sportsteams:            "arts_ent",
+        psychic_astrology:      "arts_ent",
+        racetracks:             "arts_ent",
+        social_clubs:           "arts_ent",
+        stadiumsarenas:         "arts_ent",
+        ticketsales:            "arts_ent",
+        wineries:               "arts_ent",
 
         /* food */
         food:                   "food",
@@ -178,6 +178,38 @@
         poolhalls:              "nightlife"
     } 
 
+    var _categorized = {
+        art_ent: [],
+        active: [],
+        food: [],
+        nightlife: [],
+        other: []
+    };
+
+    function _push(item) {
+        var _category;
+
+        if(!item.categories || !item.categories.length) {
+            console.log(MESSAGE.SELF + 'categories not found in item', item);
+            _categorized['other'].push(item); 
+        }
+        else {
+            for(var i = 0, len = item.categories.length; i < len; ++i) {
+                _category = item.categories[i];
+
+                if(_categorized.hasOwnProperty(_category)) {
+                    _categorized[_category].push(item);
+                }
+                else {
+
+                    _categorized['other'].push(item);
+                } 
+            } 
+        }
+
+        return _categorized;
+    }
+
     function _item(business) {
         var defer = Q.defer(),
             item;
@@ -187,7 +219,9 @@
             title: YelpTranslator.title(business),
             description: YelpTranslator.description(business),
             external_link: YelpTranslator.externalLink(business),
-            image_url: YelpTranslator.imageUrl(business)
+            image_url: YelpTranslator.imageUrl(business),
+            categories: YelpTranslator.category(business),
+            metadata: YelpTranslator.metadata(business)
         };
 
         // async operations
@@ -196,6 +230,7 @@
                 item.location = location;
             }
             console.log(MESSAGE.SELF + 'success obtaining location', item);
+            _push(item);
             defer.resolve(item)
         }, function(error) {
             console.log(MESSAGE.SELF + 'error obtaining location, returning item without location');
@@ -221,14 +256,7 @@
     function translate(data) {
         var defer = Q.defer(),
             error,
-            business,
-            collection = {
-                art_ent: [],
-                active: [],
-                food: [],
-                nightlife: [],
-                other: []
-            };  
+            business;  
 
         // data not supplied
         if(!data) {
@@ -274,10 +302,24 @@
             promises.push(_item(business))
         }
 
-        Q.all(promises).then(function(categorized) {
-            defer.resolve(categorized);
+        Q.all(promises).then(function(translated) {
+            defer.resolve(_categorized);
+            _categorized = {
+                art_ent: [],
+                active: [],
+                food: [],
+                nightlife: [],
+                other: []
+            };
         }, function(error) {
             defer.reject(error);
+            _categorized = {
+                art_ent: [],
+                active: [],
+                food: [],
+                nightlife: [],
+                other: []
+            };
         }, function(notification) {
             defer.notify(notification);
         });
@@ -319,6 +361,42 @@
             console.log(MESSAGE.SELF + 'unable to get description', business[DEAL_KEY]);
             return '';
         }
+    }
+
+    YelpTranslator.category = category;
+    function category(business) {
+        var CATEGORY_KEY = 'categories',
+            _categories,
+            _categoryGroup,
+            _alias,
+            _matched,
+            _assignedCategories = [];
+
+        try{
+            _categories = business[CATEGORY_KEY];
+
+            for(var i = 0, len = _categories.length; i < len; ++i) {
+                _categoryGroup = _categories[i];
+                _alias = _categoryGroup[1]
+
+                if(_category_mapping.hasOwnProperty(_alias) ) {
+                    _matched = _category_mapping[_alias];
+
+                    if( _assignedCategories.indexOf(_matched) < 0) {
+                        console.log(MESSAGE.SELF + 'adding category', _matched, _assignedCategories, 'yelp categories: ', _categories);
+                        _assignedCategories.push(_matched);
+                    }
+                    else {
+                        console.log(MESSAGE.SELF + 'skipping category, already matched', _matched, _assignedCategories, 'yelp categories', _categories);
+                    }
+                }
+            }
+        }
+        catch(e) {
+            console.log(MESSAGE.SELF + 'unable to get categories', business[CATEGORY_KEY]);
+        }
+
+        return _assignedCategories;
     }
 
     YelpTranslator.location = location;
@@ -405,136 +483,22 @@
         }
     }
 
+    YelpTranslator.metadata = metadata;
+    function metadata(business) {
+         var ID_KEY = 'id';
+         var metadata = {
+            source: 'yelp'
+         };
+
+         console.log(MESSAGE.SELF, business.id, business);
+         if(business && business[ID_KEY]) {
+            metadata.source_id = business[ID_KEY];
+         }
+
+         return metadata;
+    }
+
 
     return YelpTranslator;
 })
     
-
-/*
-
-    function _address(business) {
-        
-    }
-
-*/
-
-/*
-
-businesses = data.businesses;
-
-if(businesses === undefined || businesses === null) {
-    console.log(STATUS.INCORRECT_BUSINESS_KEY);
-    defer.reject(new Error(STATUS.INCORRECT_BUSINESS_KEY));
-    return defer.promise;
-}
-
-if(businesses.length === 0) {
-    console.log('YelpService: ', 'Zero results returned');
-    defer.resolve([]);
-    return defer.promise;
-}
-
-businesses.forEach(function(business, index) {
-    var address = _address(business);
-    if(address) {
-        promises.push(Geocoder.query(address, business, "_location"));
-    }
-    else {
-        console.log('YelpService: ', 'failed to parse address', address);
-    }
-});
-
-if(promises.length > 0) {
-    Q.all(promises).then(function(data) {
-        _success(data, defer);
-    }, function(error) {
-    }, function(notification) {
-        _notification(notification);
-    });
-}
-else {
-    defer.resolve([]);
-}
-
-
-Example Business Data Structure
-===============================
-
-{
-    "rating": 3.5,
-    "rating_img_url": "http://s3-media1.ak.yelpcdn.com/assets/2/www/img/5ef3eb3cb162/ico/stars/v1/stars_3_half.png",
-    "display_phone": "+1-202-265-3413",
-    "id": "duffys-irish-restaurant-and-pub-washington",
-    "is_closed": false,
-    "mobile_url": "http://m.yelp.com/biz/duffys-irish-restaurant-and-pub-washington",
-    "review_count": 113,
-    "categories": [
-      [
-        "Pubs",
-        "pubs"
-      ],
-      [
-        "Sports Bars",
-        "sportsbars"
-      ],
-      [
-        "Irish",
-        "irish"
-      ]
-    ],
-    "location": {
-      "cross_streets": "N Florida Ave & N V St",
-      "city": "Washington",
-      "display_address": [
-        "2106 Vermont Ave NW",
-        "(b/t N Florida Ave & N V St)",
-        "Washington, DC 20001"
-      ],
-      "postal_code": "20001",
-      "country_code": "US",
-      "address": [
-        "2106 Vermont Ave NW"
-      ],
-      "state_code": "DC"
-    },
-    "is_claimed": true,
-    "rating_img_url_small": "http://s3-media1.ak.yelpcdn.com/assets/2/www/img/2e909d5d3536/ico/stars/v1/stars_small_3_half.png",
-    "phone": "2022653413",
-    "snippet_text": "We got there around 6pm on Tuesday night, which happens to be half off wing night #win. You walk right in and sit yourself anywhere to your liking. Our...",
-    "rating_img_url_large": "http://s3-media3.ak.yelpcdn.com/assets/2/www/img/bd9b7a815d1b/ico/stars/v1/stars_large_3_half.png",
-    "snippet_image_url": "http://s3-media4.ak.yelpcdn.com/photo/gUqgzcU_f-jjRxzHWkBDjQ/ms.jpg",
-    "distance": 951.4453075439014,
-    "name": "Duffy's Irish Restaurant & Pub",
-    "url": "http://www.yelp.com/biz/duffys-irish-restaurant-and-pub-washington",
-    "deals": [
-      {
-        "is_popular": true,
-        "what_you_get": "You get a voucher redeemable for $20 at Duffy's Irish Restaurant & Pub.\nPrint out your voucher, or redeem on your phone with the <a href=\"http://www.yelp.com/yelpmobile\">Yelp app</a>.",
-        "time_start": 1386801529,
-        "title": "$10 for $20",
-        "url": "http://www.yelp.com/deals/duffys-irish-restaurant-and-pub-washington",
-        "additional_restrictions": "Promotion lasts for 1 year from date of purchase. After that period, your voucher is redeemable for the amount you paid. Not valid with other vouchers, certificates, or offers. Gratuity not included; please tip on full value. Must be of legal drinking age. Must use in a single visit. Only 1 voucher(s) can be purchased and redeemed per person. Up to 1 can be purchased as gifts for others. Subject to the <a target=\"_blank\" href=\"http://www.yelp.com/tos/general_b2c_us_20120911\">General Terms</a>.",
-        "options": [
-          {
-            "original_price": 2000,
-            "title": "$10 for $20",
-            "price": 1000,
-            "purchase_url": "https://www.yelp.com/checkout/deal/mF09EL6FRiwf6UnWOi2FRw",
-            "remaining_count": 188,
-            "formatted_original_price": "$20",
-            "formatted_price": "$10",
-            "is_quantity_limited": true
-          }
-        ],
-        "important_restrictions": "Not valid for delivery.\nNot valid for take-out.\nLimit 1 voucher(s) per table.",
-        "image_url": "http://s3-media4.ak.yelpcdn.com/dphoto/Vsz2jEgS5kc-_rosvDIwRA/m.jpg",
-        "id": "1zb43yF-NzjYNibrBcWM3Q",
-        "currency_code": "USD"
-      }
-    ],
-    "image_url": "http://s3-media1.ak.yelpcdn.com/bphoto/4gu2uQ5ONLKgtnDmtDl2dw/ms.jpg",
-    "menu_provider": "singleplatform",
-    "menu_date_updated": 1387633248
-}
-*/  
-
