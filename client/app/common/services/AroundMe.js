@@ -21,13 +21,7 @@ angular.module('common.services.aroundme', [])
 
       items.forEach(function(item, index) {
         try{
-          translated.push({
-            name: item.title,
-            description: item.description,
-            url: item.external_link,
-            lat: item.location.lat,
-            lon: item.location.lon
-          });
+          translated.push(item);
         }
         catch(e) {
           console.log('error translating', e.toString());
@@ -52,10 +46,12 @@ angular.module('common.services.aroundme', [])
       _currentLocation = currentLocation;
       $http.post(AROUND_ME_REST_PATH, currentLocation)
         .success(function(data, status, headers) {
-
+          var _collection = [];  
           for(var category in data) {
             if(data.hasOwnProperty(category)) {
-              _aroundMe[category] = _translator(data[category]);
+              _aroundMe[category] = data[category];
+              _collection = _collection.concat(data[category]);
+              _aroundMe.collection = _collection;
             }
           }
           _aroundMe.message = AroundMe.MESSAGES.SUCCESS;

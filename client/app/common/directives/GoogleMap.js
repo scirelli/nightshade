@@ -12,22 +12,21 @@ angular.module("common.directives.googlemap", [])
     }
 
     function _addMarker(config) {
+      if(!config.lat || !config.lon) {
+        return;
+      }
       var latLng = new google.maps.LatLng(config.lat, config.lon),
-          point = {};
+          marker;
 
-      point.position = latLng;
-      point.map = config.map;
-      point.title = config.title;
-      point.actionUrl = config.actionUrl;
-      point.url = config.url;
-      point.description = config.description;
-      point.optimized = false;
-      point.zIndex = google.maps.Marker.MAX_ZINDEX;
-
-      marker = new google.maps.Marker(point);
+      angular.extend(config, {
+        position: latLng,
+        optimized: false,
+        zIndex: google.maps.Marker.MAX_ZINDEX
+      });
+      
+      marker = new google.maps.Marker(config);
       marker.lat = marker.getPosition().lat();
       marker.lon = marker.getPosition().lng();
-
       google.maps.event.addListener(marker, 'click', _clickCallback(marker, config.clickCallback)); 
       config.addCallback({marker: marker});
     }
@@ -62,17 +61,15 @@ angular.module("common.directives.googlemap", [])
       for(i = 0, len = points.length; i < len; ++i) {
         point = points[i];
 
-        _addMarker({
-          title: point.name, 
-          lat: point.lat, 
-          lon: point.lon, 
-          description: point.description,
-          actionUrl: point.actionUrl,
-          url: point.url,
-          map: _map, 
+        angular.extend(point, {
+          lat: point.location.lat,
+          lon: point.location.lon,
+          map: _map,
           clickCallback: clickCallback,
           addCallback: addCallback
         });
+
+        _addMarker(point);
       }
     }
 

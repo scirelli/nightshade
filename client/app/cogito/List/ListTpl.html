@@ -3,6 +3,8 @@
     <tr>
       <th>Name</th>
       <th>Description</th>
+      <th>Category</th>
+      <th>Address</th>
     </tr>
   </thead>
   <tbody>
@@ -15,8 +17,14 @@
     </tr>
 
     <tr ng-repeat="item in list.items">
-      <td><a href="{{item.url}}" target="_blank">{{item.name}}</a></td>
+      <td><a href="{{item.external_link}}" target="_blank">{{item.title}}</a></td>
       <td>{{item.description}}</td>
+      <td>{{item.categories.toString()}}</td>
+      <td>
+        {{item.location.address}}
+
+        { Lat: {{item.location.lat}}, Lon: {{item.location.lon}} }
+      </td>
     </tr>
   </tbody>
 </table>
