@@ -37,31 +37,61 @@ angular.module("cogito", [
       })
   })
 
-  .controller('CogitoCtrl', function($scope, Communicator) {
+  .controller('CogitoCtrl', function($scope, Communicator, CurrentLocation, AroundMe) {
 
+    function _fetchAroundMe(params) {
+      AroundMe.query(params, function(data, status, headers) {
 
-    $scope.$on(Communicator.MAP_MARKER_SELECTED_CHANNEL, function($e, data) {
-      var marker = Communicator.packet;
+        if(status != 200) {
+          $scope.$apply(function() {
+            console.log(data, status, headers);
+            $scope.debug.status = AroundMe.MESSAGES.ERROR;
+            $scope.list.fetchedData = false;
+            $scope.map.fetchedData = false;
 
-      if(marker) {
-        $scope.debug.marker = {
-          title: marker.title,
-          url: marker.url,
-          description: marker.description,
-          actionUrl: marker.actionUrl,
-          lat: marker.lat,
-          lon: marker.lon
-        };
-        $scope.$apply();
-      }
-    });
+          });
+        }
+        else {
+          $scope.list.items = data.collection; 
+          $scope.list.fetchedData = true;
+          $scope.debug.status = data.message;
+
+          $scope.map.points = data.collection;
+          $scope.map.fetchedData = true;
+          $scope.debug.status = data.message;
+        }
+      });
+    }
 
     $scope.optionsTray = {
       active: false
     };
 
-    $scope.debug = {
-      marker: null
+
+    $scope.list = {
+      fetchedData: false
     };
 
-  })
+    $scope.debug = {};
+    $scope.geo = {};
+    $scope.debug.status = AroundMe.MESSAGES.FETCHING_DATA;
+    CurrentLocation.get(function(loc) {
+
+      if(!loc.lat || !loc.lon) {
+        $scope.geo.status = loc.message;
+      }
+
+      Communicator.send(Communicator.MAP_SET_CENTER_CHANNEL, loc);
+      $scope.geo.status = loc.message;
+      _fetchAroundMe(loc);
+    });
+
+    $scope.map = {
+      points: [],
+      message: 'Obtaining your geolocation...',
+      markerClick: function(marker) {
+        Communicator.send(Communicator.MAP_MARKER_SELECTED_CHANNEL, marker);
+      }
+    };
+
+  });

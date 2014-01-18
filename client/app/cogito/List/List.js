@@ -4,28 +4,28 @@ angular.module('cg-list', [
   'common.services.aroundme'
 ])
   .controller("ListCtrl", function($scope, CurrentLocation, AroundMe, Communicator) {
-    $scope.list = {
-      fetchedData: false
-    };
+    // $scope.list = {
+    //   fetchedData: false
+    // };
 
-    function _fetchAroundMe(params) {
-      AroundMe.query(params, function(data, status, headers) {
+    // function _fetchAroundMe(params) {
+    //   AroundMe.query(params, function(data, status, headers) {
 
-        if(status != 200) {
-          console.log(data, status, headers);
-          $scope.debug.status = AroundMe.MESSAGES.ERROR;
-          return;
-        }
+    //     if(status != 200) {
+    //       console.log(data, status, headers);
+    //       $scope.debug.status = AroundMe.MESSAGES.ERROR;
+    //       return;
+    //     }
 
-        $scope.list.items = data.collection; 
-        $scope.list.fetchedData = true;
-        $scope.debug.status = data.message;
-      });
-    }
+    //     $scope.list.items = data.collection; 
+    //     $scope.list.fetchedData = true;
+    //     $scope.debug.status = data.message;
+    //   });
+    // }
 
-    $scope.debug.status = AroundMe.MESSAGES.FETCHING_DATA;
-    CurrentLocation.get(function(location) {
-      _fetchAroundMe(location);
-    });
+    // $scope.debug.status = AroundMe.MESSAGES.FETCHING_DATA;
+    // CurrentLocation.get(function(location) {
+    //   _fetchAroundMe(location);
+    // });
 
   });

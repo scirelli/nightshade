@@ -12,9 +12,6 @@
       <td>There are no results in your area</td>
     </tr>
 
-    <tr ng-hide="list.fetchedData">
-      <td>{{debug.status}}</td>
-    </tr>
 
     <tr ng-repeat="item in list.items">
       <td><a href="{{item.external_link}}" target="_blank">{{item.title}}</a></td>
@@ -27,4 +24,9 @@
       </td>
     </tr>
   </tbody>
-</table>
+</table>    
+
+<div ng-hide="list.fetchedData">
+  <p>{{debug.status}}</p>
+  <p>{{geo.status}}</p>
+</div>

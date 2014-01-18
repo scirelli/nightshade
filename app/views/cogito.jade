@@ -42,7 +42,7 @@ block content
       div(class="col main scroll-y")
         div(ng-view, style="height:100%;")
 
-      div(optionstray, class="col options-tray", ng-class="{ 'active': optionsTray.active }")
+      div(class="col options-tray", ng-class="{ 'active': optionsTray.active }")
         div(class="view-options clearfix")
           a(href="#/map", ng-click="optionsTray.active =! optionsTray.active")
             div(class="option icon-map") 

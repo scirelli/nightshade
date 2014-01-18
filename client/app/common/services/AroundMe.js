@@ -34,6 +34,12 @@ angular.module('common.services.aroundme', [])
     AroundMe.query= function(currentLocation, callback) {
       currentLocation = currentLocation || {};
 
+      if(!currentLocation.lat || !currentLocation.lon) {
+        _aroundMe.message = AroundMe.MESSAGES.ERROR;
+        callback(_aroundMe, 500);
+        return;
+      }
+
       if(!$.isEmptyObject(_aroundMe) && _currentLocation && _currentLocation.lat === currentLocation.lat && _currentLocation.lon === currentLocation.lon) {
         callback(_aroundMe, 200);
         return;

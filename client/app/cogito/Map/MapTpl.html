@@ -1,11 +1,12 @@
 <div class="map">
   <div class="status">
     <div ng-show="map.fetchedData && map.points.length == 0">
-      <span>There are no results in your area</span>
+      <p>There are no results in your area</p>
     </div>
 
     <div ng-hide="map.fetchedData">
-      <span>{{debug.status}}</span>
+      <p>{{debug.status}}</p>
+      <p>{{geo.status}}</p>
     </div>
   </div>
 

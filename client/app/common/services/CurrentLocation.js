@@ -90,7 +90,7 @@ angular.module('common.services.currentlocation', [])
       var locator = _geolocator();
 
       if(!locator) {
-        doCallback(_location);
+        _doCallback(_location);
       }
 
       locator.getCurrentPosition(function(position) {
@@ -100,7 +100,7 @@ angular.module('common.services.currentlocation', [])
         }, 100);
       }, function(error) {
         _failedGeolocation(error);
-        doCallback(callback, _location);
+        _doCallback(callback, _location);
       });
       return;
     }
