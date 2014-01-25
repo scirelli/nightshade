@@ -5,6 +5,9 @@
   "private": true,
   "dependencies": {
     "express": "3.x",
-    "redis":"*"
+    "redis":"*",
+    "q":">=1.0.0",
+    "prototype":">=0.0.5",
+    "q-io":"*"
   }
 }

@@ -3,9 +3,27 @@ var express     = require('express'),
     app         = express(),
     config      = require('./config');
 
-// modules
-var http        = require('http'),
-    sass        = require('node-sass');
+Object.extend(global, proto); 
+
+// Nightshade libs
+var notications       = require('./lib/notification'),
+    OAuth             = require('./services/OAuth.js')(oauth, querystring),
+    GoogleGeocoder    = require('./services/GoogleGeocoder')(http, querystring, cfg.GOOGLE_GEOCODER),
+    Yelp              = require('./services/Yelp.js')(OAuth, GoogleGeocoder, cfg.YELP),
+    LocationNotifiers = require('./services/LocationNotifiers.js')(notications),
+    LocationNotifier  = new LocationNotifiers();
+
+var yelpListener = Class.create( notications.IListener,{
+  initialize:function(){},
+  onChange:function( oLocationData ){
+    console.log('something');
+  }
+});
+
+LocationNotifier.register( new yelpListener() );
+
+var Plan = require('./models/Plan.js')({}, mongoose);
+var User = require('./models/User.js')({}, Plan, mongoose);
 
 var server = http.createServer(app);
 var port = config.PORT.HTTP;
