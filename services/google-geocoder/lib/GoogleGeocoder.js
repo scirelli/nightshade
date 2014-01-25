@@ -64,7 +64,7 @@ function _latLon(results) {
 }
 
 function GoogleGeocoder(config) {
-   GeocodeConfig = config.GOOGLE_GEOCODER;
+   GeocodeConfig = require('./config.js');
 }
     
 GoogleGeocoder.prototype = {

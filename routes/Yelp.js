@@ -1,6 +1,6 @@
 module.exports = YelpRoutes = function(config) {
 
-    var Manager = require(config.PATH.LIB + 'DataCollectorManager');
+    var Manager = require(config.PATH.LIB + 'data-collector-manager');
     var _manager = new Manager(config)
 
     var YelpService = require(config.PATH.SERVICES + 'yelp');

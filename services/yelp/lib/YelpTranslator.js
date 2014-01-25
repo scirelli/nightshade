@@ -1,6 +1,6 @@
 var Q = require('Q');
 
-var _category_mapping = require('./CategoryMap.js');
+var _category_mapping = require('./categories.js');
 
 var MESSAGE = {};
     MESSAGE.SELF = '\n\n\nYelpTranslator: ';

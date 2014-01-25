@@ -1,12 +1,5 @@
 var config = module.exports = {};
 
-config.GOOGLE_GEOCODER = {
-  HOST: 'maps.googleapis.com',
-  PATH: '/maps/api/geocode/json?',
-  PORT: 80,
-  METHOD: 'GET'
-};
-
 // paths
 config.PATH = {};
 
