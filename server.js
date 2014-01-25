@@ -1,40 +1,28 @@
 // web server
 var express     = require('express'),
-    app         = express(),
-    config      = require('./config');
+    app         = express();
+
+// modules
+var http        = require('http'),
+    sass        = require('node-sass'), 
+    proto       = require('prototype');
+
+// config
+var config      = require('./config');
 
 Object.extend(global, proto); 
-
-// Nightshade libs
-var notications       = require('./lib/notification'),
-    OAuth             = require('./services/OAuth.js')(oauth, querystring),
-    GoogleGeocoder    = require('./services/GoogleGeocoder')(http, querystring, cfg.GOOGLE_GEOCODER),
-    Yelp              = require('./services/Yelp.js')(OAuth, GoogleGeocoder, cfg.YELP),
-    LocationNotifiers = require('./services/LocationNotifiers.js')(notications),
-    LocationNotifier  = new LocationNotifiers();
-
-var yelpListener = Class.create( notications.IListener,{
-  initialize:function(){},
-  onChange:function( oLocationData ){
-    console.log('something');
-  }
-});
-
-LocationNotifier.register( new yelpListener() );
-
-var Plan = require('./models/Plan.js')({}, mongoose);
-var User = require('./models/User.js')({}, Plan, mongoose);
 
 var server = http.createServer(app);
 var port = config.PORT.HTTP;
 
-var CogitoRoutes = require(config.PATH.APP + '/routes/Cogito.js')();
-var YelpRoutes = require(config.PATH.APP + '/routes/Yelp.js')(config);
-var TicketflyRoutes = require(config.PATH.APP + '/routes/Ticketfly.js')(config);
-var AroundMeRoutes = require(config.PATH.APP + '/routes/AroundMe.js')();
+var CogitoRoutes = require(config.PATH.APP + 'routes/Cogito.js')();
+var YelpRoutes = require(config.PATH.APP + 'routes/Yelp.js')(config);
+var TicketflyRoutes = require(config.PATH.APP + 'routes/Ticketfly.js')(config);
+var AroundMeRoutes = require(config.PATH.APP + 'routes/AroundMe.js')(config);
 
 app.configure(function() {
     'use strict';
+
     /* views */
     app.set('views', config.PATH.APP + '/views');
     app.set('view engine', 'jade');

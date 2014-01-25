@@ -6,9 +6,6 @@ module.exports = YelpRoutes = function(config) {
     var YelpService = require(config.PATH.DATASOURCES + '/yelp/YelpService.js');
     var _yelpService = new YelpService(config);
 
-    // var TicketflyService = require(config.PATH.DATASOURCES + '/ticketfly/TicketflyService.js');
-    // var _ticketflyService = new TicketflyService(config);
-
     _manager.add(_yelpService.search);
 
     function _success(data, res) {
