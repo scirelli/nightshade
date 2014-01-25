@@ -17,7 +17,7 @@
     "node-uuid": ">=1.4.1",
     "oauth": "0.9.10",
     "querystring": "0.2.0",
-    "prototype":">=0.0.5",
+    "prototype": ">=0.0.5",
     "node-sass": ">=0.8.0",
     "q": ">=1.0.0"
   },
@@ -26,7 +26,9 @@
   },
   "readmeFilename": "README.md",
   "description": "Beginnings of planner web application in Node.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.2"
+  },
   "repository": "",
   "author": "",
   "license": "BSD"

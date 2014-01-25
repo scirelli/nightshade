@@ -1,4 +1,7 @@
-module.exports = YelpRoutes = function(YelpService) {
+module.exports = YelpRoutes = function(config) {
+
+    var YelpService = require(config.PATH.APP + '/services/datasources/yelp/YelpService.js');
+    var _yelpService = new YelpService(config);
 
     function _success(data, res) {
         res.send(200, data);
@@ -25,7 +28,7 @@ module.exports = YelpRoutes = function(YelpService) {
                 return;
             }
 
-            var promise = YelpService.search(lat, lon);
+            var promise = _yelpService.search(lat, lon);
 
             console.log(promise);
 
@@ -39,4 +42,4 @@ module.exports = YelpRoutes = function(YelpService) {
                 });    
         }
     };
-}
+};
