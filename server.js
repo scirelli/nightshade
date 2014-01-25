@@ -12,6 +12,7 @@ var port = config.PORT.HTTP;
 
 var CogitoRoutes = require(config.PATH.APP + '/routes/Cogito.js')();
 var YelpRoutes = require(config.PATH.APP + '/routes/Yelp.js')(config);
+var TicketflyRoutes = require(config.PATH.APP + '/routes/Ticketfly.js')(config);
 var AroundMeRoutes = require(config.PATH.APP + '/routes/AroundMe.js')();
 
 app.configure(function() {
@@ -38,6 +39,7 @@ app.configure(function() {
 app.get('/', CogitoRoutes.index);
 
 app.post('/yelp', YelpRoutes.fetch);
+app.get('/ticketfly', TicketflyRoutes.fetch);
 app.post('/aroundme', AroundMeRoutes.fetch);
 
 app.get('/geo', function(req, res) {

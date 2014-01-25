@@ -1,10 +1,35 @@
 module.exports = YelpRoutes = function(config) {
 
-    var YelpService = require(config.PATH.APP + '/services/datasources/yelp/YelpService.js');
+    var Manager = require(config.PATH.SERVICES + '/DataCollectorManager.js');
+    var _manager = new Manager(config)
+
+    var YelpService = require(config.PATH.DATASOURCES + '/yelp/YelpService.js');
     var _yelpService = new YelpService(config);
 
+    // var TicketflyService = require(config.PATH.DATASOURCES + '/ticketfly/TicketflyService.js');
+    // var _ticketflyService = new TicketflyService(config);
+
+    _manager.add(_yelpService.search);
+
     function _success(data, res) {
-        res.send(200, data);
+
+        var response = {},
+            dataset;
+
+        for(var i = 0, len = data.length; i < len; ++i) {
+            dataset = data[i];
+
+            for(var category in dataset) {
+                if(!response.hasOwnProperty(category)) {
+                    response[category] = dataset[category];
+                }
+                else {
+                    response[category].concat(dataset[category]);
+                }
+            }
+        }
+
+        res.send(200, response);
     }
 
     function _error(error, res) {
@@ -28,9 +53,7 @@ module.exports = YelpRoutes = function(config) {
                 return;
             }
 
-            var promise = _yelpService.search(lat, lon);
-
-            console.log(promise);
+            var promise = _manager.delegate(lat, lon);
 
             promise
                 .then(function(data) {
