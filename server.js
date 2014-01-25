@@ -15,15 +15,15 @@ var express     = require('express'),
 
 Object.extend(global, proto); 
 
-// interfaces
-var INotications      = require('./services/interfaces/INotifications.js')(),
+// Nightshade libs
+var notications       = require('./lib/notification'),
     OAuth             = require('./services/OAuth.js')(oauth, querystring),
     GoogleGeocoder    = require('./services/GoogleGeocoder')(http, querystring, cfg.GOOGLE_GEOCODER),
     Yelp              = require('./services/Yelp.js')(OAuth, GoogleGeocoder, cfg.YELP),
-    LocationNotifiers = require('./services/LocationNotifiers.js')(INotications),
+    LocationNotifiers = require('./services/LocationNotifiers.js')(notications),
     LocationNotifier  = new LocationNotifiers();
 
-var yelpListener = Class.create( INotications.IListener,{
+var yelpListener = Class.create( notications.IListener,{
   initialize:function(){},
   onChange:function( oLocationData ){
     console.log('something');
@@ -63,15 +63,14 @@ app.configure(function() {
 });
 
 function auth(req, res, next) {
-  if(!req.session.user || !req.session.user.loggedIn) {
-    res.redirect('/welcome');
-  }
-  else {
-    if(req.session.user.role === "admin") {
-      req.session.user.isAdmin = true;
+    if(!req.session.user || !req.session.user.loggedIn) {
+        res.redirect('/welcome');
+    }else{
+        if(req.session.user.role === "admin") {
+            req.session.user.isAdmin = true;
+        }
+        next();
     }
-    next();
-  }
 }
 
 app.get('/', auth, CogitoRoutes.index);

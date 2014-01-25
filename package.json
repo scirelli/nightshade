@@ -18,7 +18,8 @@
     "oauth": "0.9.10",
     "querystring": "0.2.0",
     "prototype":">=0.0.5",
-    "q":">=1.0.0"
+    "q":">=1.0.0",
+    "q-io":"*"
   },
   "scripts": {
     "start": "node server.js"

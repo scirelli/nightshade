@@ -7,6 +7,7 @@
     "express": "3.x",
     "redis":"*",
     "q":">=1.0.0",
-    "prototype":">=0.0.5"
+    "prototype":">=0.0.5",
+    "q-io":"*"
   }
 }
