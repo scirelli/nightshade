@@ -1,6 +1,6 @@
 module.exports = TicketflyRoutes = function(config) {
 
-  var TicketflyService = require(config.PATH.DATASOURCES + '/ticketfly/TicketflyService.js');
+  var TicketflyService = require(config.PATH.SERVICES + 'ticketfly');
   var _ticketflyService = new TicketflyService(config);
 
   return {

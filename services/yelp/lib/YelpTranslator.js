@@ -80,7 +80,7 @@ function _item(YelpTranslator, business) {
  * http://www.yelp.com/developers/documentation/v2/search_api#rValue
  */
 function YelpTranslator(config) {
-    var GoogleGeocoder = require(config.PATH.SERVICES + '/GoogleGeocoder');
+    var GoogleGeocoder = require(config.PATH.SERVICES + 'google-geocoder');
     this.geocoder = new GoogleGeocoder(config);
 }
 

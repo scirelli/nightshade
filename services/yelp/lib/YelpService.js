@@ -23,7 +23,7 @@ var YELP_CATEGORY_FILTERS = ['arts', 'active', 'food', 'yelpevents', 'nightlife'
 var YELP_DEALS_FILTER = true;
 
 /**
- * @var _YELP_SEARCH_PATH;
+ * @var _YELP_SEARCH_PATH
  */
 var _YELP_SEARCH_PATH;
 
@@ -41,12 +41,13 @@ var _oauth;
  * YelpService constructor
  */
 function YelpService(config) {
-    var Translator = require(config.PATH.DATASOURCES + '/yelp/YelpTranslator');
-    var OAuth = require(config.PATH.SERVICES + '/OAuthService');
+    var Translator = require('./YelpTranslator.js');
+    var OAuth = require(config.PATH.SERVICES + 'oauth');
+    var yelpConfig = require('./Config.js');
 
     _translator = new Translator(config);
-    _oauth = new OAuth(config.YELP);
-    _YELP_SEARCH_PATH = config.YELP.SEARCH_API_PATH;
+    _oauth = new OAuth(yelpConfig);
+    _YELP_SEARCH_PATH = yelpConfig.SEARCH_API_PATH;
 }
 
 /**
