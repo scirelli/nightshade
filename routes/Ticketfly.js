@@ -5,7 +5,7 @@ module.exports = TicketflyRoutes = function(config) {
 
   return {
     fetch: function(req, res) {
-      var promise = _ticketflyService.search();
+      var promise = _ticketflyService.search(38.92476163176131, -77.03218460083008);
 
       promise.then(function(data) {
         res.send(200, data);

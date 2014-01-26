@@ -320,7 +320,6 @@ YelpTranslator.prototype = {
             source: 'yelp'
          };
 
-         console.log(MESSAGE.SELF, business.id, business);
          if(business && business[ID_KEY]) {
             metadata.source_id = business[ID_KEY];
          }

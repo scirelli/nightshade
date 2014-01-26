@@ -6,7 +6,11 @@ module.exports = YelpRoutes = function(config) {
     var YelpService = require(config.PATH.SERVICES + 'yelp');
     var _yelpService = new YelpService(config);
 
+    var TicketflyService = require(config.PATH.SERVICES + 'ticketfly');
+    var _ticketflyService = new TicketflyService(config);
+
     _manager.add(_yelpService.search);
+    _manager.add(_ticketflyService.search);
 
     function _success(data, res) {
 
@@ -21,7 +25,7 @@ module.exports = YelpRoutes = function(config) {
                     response[category] = dataset[category];
                 }
                 else {
-                    response[category].concat(dataset[category]);
+                    response[category] = response[category].concat(dataset[category]);
                 }
             }
         }
