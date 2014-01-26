@@ -19,6 +19,7 @@ var _categorized = {
 };
 
 function _push(item) {
+    
     var _category;
 
     if(!item.categories || !item.categories.length) {

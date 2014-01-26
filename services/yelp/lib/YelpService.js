@@ -43,7 +43,7 @@ var _oauth;
 function YelpService(config) {
     var Translator = require('./YelpTranslator.js');
     var OAuth = require(config.PATH.SERVICES + 'oauth');
-    var yelpConfig = require('./Config.js');
+    var yelpConfig = require('./config.js');
 
     _translator = new Translator(config);
     _oauth = new OAuth(yelpConfig);
