@@ -1,4 +1,4 @@
-var Q           = require('Q'),
+var Q           = require('q'),
     querystring = require('querystring'),
     http        = require('http');
 
