@@ -6,27 +6,8 @@ module.exports = YelpRoutes = function(config) {
     var YelpService = require(config.PATH.SERVICES + 'yelp');
     var _yelpService = new YelpService(config);
 
-    _manager.add(_yelpService.search);
-
     function _success(data, res) {
-
-        var response = {},
-            dataset;
-
-        for(var i = 0, len = data.length; i < len; ++i) {
-            dataset = data[i];
-
-            for(var category in dataset) {
-                if(!response.hasOwnProperty(category)) {
-                    response[category] = dataset[category];
-                }
-                else {
-                    response[category].concat(dataset[category]);
-                }
-            }
-        }
-
-        res.send(200, response);
+        res.send(200, data);
     }
 
     function _error(error, res) {
@@ -50,7 +31,7 @@ module.exports = YelpRoutes = function(config) {
                 return;
             }
 
-            var promise = _manager.delegate(lat, lon);
+            var promise = _yelpService.search(lat, lon);
 
             promise
                 .then(function(data) {

@@ -1,4 +1,4 @@
-var Q = require('Q');
+var Q = require('q');
 
 var _category_mapping = require('./categories.js');
 
@@ -19,6 +19,7 @@ var _categorized = {
 };
 
 function _push(item) {
+    
     var _category;
 
     if(!item.categories || !item.categories.length) {
@@ -320,7 +321,6 @@ YelpTranslator.prototype = {
             source: 'yelp'
          };
 
-         console.log(MESSAGE.SELF, business.id, business);
          if(business && business[ID_KEY]) {
             metadata.source_id = business[ID_KEY];
          }

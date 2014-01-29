@@ -19,8 +19,13 @@
     "querystring": "0.2.0",
     "prototype": ">=0.0.5",
     "node-sass": ">=0.8.0",
+<<<<<<< HEAD
     "q": ">=1.0.0",
     "q-io":"*"
+=======
+    "q-io": ">=1.10.8",
+    "q": ">=1.0.0"
+>>>>>>> 01ea7f71401e0ff38cec2977ecb622bef18b92be
   },
   "scripts": {
     "start": "node server.js"
@@ -28,7 +33,10 @@
   "readmeFilename": "README.md",
   "description": "Beginnings of planner web application in Node.js",
   "devDependencies": {
-    "grunt": "~0.4.2"
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-nodeunit": "~0.2.2",
+    "grunt-contrib-uglify": "~0.2.2"
   },
   "repository": "",
   "author": "",

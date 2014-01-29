@@ -18,4 +18,4 @@ config.PATH.PUBLIC = __dirname + '/../client/';
 // stylesheets/css
 config.PATH.ASSETS = config.PATH.PUBLIC + 'assets/';
 config.PATH.CSS = config.PATH.ASSETS + 'css/';
-config.PATH.STYLESHEETS = config.PATH.APP + 'stylesheets/';
+config.PATH.STYLESHEETS = config.PATH.CSS;

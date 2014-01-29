@@ -12,7 +12,7 @@ angular.module('common.services.aroundme', [])
     var _aroundMe = {};
     var _currentLocation = false;
 
-    var AROUND_ME_REST_PATH = '/yelp';
+    var AROUND_ME_REST_PATH = '/aroundme';
 
     function _translator(items) {
       var translated = [],
