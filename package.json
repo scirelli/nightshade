@@ -19,13 +19,8 @@
     "querystring": "0.2.0",
     "prototype": ">=0.0.5",
     "node-sass": ">=0.8.0",
-<<<<<<< HEAD
-    "q": ">=1.0.0",
+    "q": "*",
     "q-io":"*"
-=======
-    "q-io": ">=1.10.8",
-    "q": ">=1.0.0"
->>>>>>> 01ea7f71401e0ff38cec2977ecb622bef18b92be
   },
   "scripts": {
     "start": "node server.js"
