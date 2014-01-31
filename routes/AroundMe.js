@@ -10,8 +10,12 @@ module.exports = function(config){
     var TicketflyService = require(config.PATH.SERVICES + 'ticketfly');
     var _ticketflyService = new TicketflyService(config);
 
+    var FakeData = require(config.PATH.SERVICES + 'fake-data');
+    var _fakeData = new FakeData();
+
     _manager.add(_yelpService.search);
     _manager.add(_ticketflyService.search);
+    _manager.add(_fakeData.search);
 
     function _success(data, res) {
 
